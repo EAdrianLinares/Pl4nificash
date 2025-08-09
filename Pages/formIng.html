@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/CSS3/styleIndex.css">
+    <title>Formulario</title>
+</head>
+
+<body>
+    <!-- Toda la pantalla centrada -->
+    <section class="min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="container">
+            <!-- Card centrada con responsive max-width -->
+            <div class="card shadow mx-auto" style="max-width: 600px; width: 100%;">
+                <div class="card-body">
+
+                    <!-- Encabezado centrado -->
+                    <div class="row text-center mb-4" id="encabezado">
+                        <div class="col-12 col-md-4 mb-3 mb-md-0 d-flex justify-content-center align-items-center">
+                            <img src="/Iconos/Menu_Ingresos.webp" class="rounded-circle w-50 w-md-25 img-fluid""
+                            style=" max-width: 150px; height: auto;" alt="User-FreePink">
+                        </div>
+                        <div class="col-12 col-md-4 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
+                            <h1 class="m-0 fs-3">Pl4nifyc4$h</h1>
+                        </div>
+                        <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+                            <span id="fechaActual" class="fw-bold d-block"></span>
+                        </div>
+                    </div>
+
+
+                    <!-- Formulario -->
+                    <form>
+                        <div class="text-center mb-3">
+                            <h3>Agregar Ingreso</h3>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha">
+                        </div>
+
+                        <div class="mb-3">
+                            <select class="form-select" id="tipoIngresos" required>
+                                <option value="" disabled selected>Tipo de ingreso</option>
+                                <option value="1">Fijo</option>
+                                <option value="2">Variable</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <select class="form-select" id="prestacional" required>
+                                <option value="" disabled selected>Prestacional</option>
+                                <option value="1">Sí</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <select class="form-select" id="detalleIngresos" required>
+                                <option value="" disabled selected>Detalle del Ingreso</option>
+                                <option value="1">Salario</option>
+                                <option value="2">Comisiones</option>
+                                <option value="3">Auxilio</option>
+                                <option value="4">Bonificaciones</option>
+                                <option value="5">Prestaciones</option>
+                                <option value="6">Otros Ingresos</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="monto" class="form-label">Monto</label>
+                            <input type="number" class="form-control" id="monto">
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary me-2">Guardar</button>
+                            <button type="button" class="btn btn-secondary" onclick="location.href='/Pages/Ingresos.html'">Cancelar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    s
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script type="module" src="/JavaScript/formulario.js"></script>
+</body>
+
+</html>

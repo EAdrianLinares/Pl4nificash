@@ -37,28 +37,29 @@
                     <!-- Formulario -->
                     <form>
                         <div class="text-center mb-3">
-                            <h3>Agregar Ingreso</h3>
+                            <h3>Agregar Movimiento</h3>
                         </div>
                         <div class="mb-3">
                             <label for="fecha" class="form-label">Fecha</label>
                             <input type="date" class="form-control" id="fecha" name="fecha">
                         </div>
+                          <div class="mb-3">
+                            <select class="form-select" id="Tipo" required>
+                                <option value="" disabled selected>Tipo Movimiento</option>
+                                <option value="1">Ingreso</option>
+                                <option value="2">Gasto</option>
+                            </select>
+                        </div>
 
                         <div class="mb-3">
-                            <select class="form-select" id="tipoIngresos" required>
-                                <option value="" disabled selected>Tipo de ingreso</option>
+                            <select class="form-select" id="categoria" required>
+                                <option value="" disabled selected>Categoria</option>
                                 <option value="1">Fijo</option>
                                 <option value="2">Variable</option>
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <select class="form-select" id="prestacional" required>
-                                <option value="" disabled selected>Prestacional</option>
-                                <option value="1">Sí</option>
-                                <option value="2">No</option>
-                            </select>
-                        </div>
+                      
 
                         <div class="mb-3">
                             <select class="form-select" id="detalleIngresos" required>
@@ -66,9 +67,9 @@
                                 <option value="1">Salario</option>
                                 <option value="2">Comisiones</option>
                                 <option value="3">Auxilio</option>
-                                <option value="4">Bonificaciones</option>
-                                <option value="5">Prestaciones</option>
-                                <option value="6">Otros Ingresos</option>
+                                <option value="4">Arriendo</option>
+                                <option value="5">comida</option>
+                                <option value="6">Otros</option>
                             </select>
                         </div>
 
@@ -79,7 +80,7 @@
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary me-2">Guardar</button>
-                            <button type="button" class="btn btn-secondary" onclick="location.href='/Pages/Ingresos.html'">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" onclick="location.href='/Pages/movimientos.html'">Cancelar</button>
                         </div>
                     </form>
 

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
 
 
-
+        //validamos el correo
         if (!validarCorreo.validacion(correoInput.value)) {
             correoInput.setCustomValidity("Valide el formato del correo")
             correoInput.reportValidity();
@@ -23,16 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             correoInput.setCustomValidity("");
         }
+        //validamos contraseñas
 
         if (password.value !== passwordValidate.value) {
-            passwordValidate.setCustomValidity("Las contraseñas no coinciden");
+            passwordValidate.setCustomValidity("Las contraseñas NO coinciden");
             correoInput.reportValidity();
             return;
         } else {
             passwordValidate.setCustomValidity("");
         }
 
-        
+        //Validamos el formulario
+        form.classList.add('was-validated');
+
+        // si hay errores no guardamos el usuario
+        if (!form.checkValidity()) {
+            return;
+        }
+
 
         //crear mediante el formulario un listado o array
         const datos = {
@@ -54,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             usuarios.push(datos);
             localStorage.setItem("usuarios", JSON.stringify(usuarios));
         }
-form.classList.add('was-validated');
+        form.classList.add('was-validated');
 
         if (form.checkValidity()) {
             alert("Registro Exitoso");

@@ -9,15 +9,15 @@ export class Usuarios {
     id:number;
 
     @Column()
-    nombre: string; 
+    nombre!: string; 
 
     @Column({unique:true})
-    email: string;
+    email!: string;
 
     @Column()
-    password: string;
+    password!: string;
 
     @OneToMany(()=> Movimiento, movimientos => movimientos.usuario)
-    movimientos: Movimiento[];
+    movimientos!: Movimiento[];
 
 }

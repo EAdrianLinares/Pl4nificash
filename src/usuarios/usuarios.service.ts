@@ -28,7 +28,7 @@ export class UsuariosService {
   async obtenerUsuarioPorId(id: number): Promise<Usuarios> {
     const usuario = await this.usuarioRepo.findOne({
       where: {id},
-      relations: ['Movimientos'],
+      //relations: ['Movimientos'],
     });
     if (!usuario){
       throw new NotFoundException ('Usuario con id ${id} no encontrado');
@@ -40,7 +40,7 @@ export class UsuariosService {
   async ActualizarUsuario(id: number, 
     updateUsuarioDto: UpdateUsuarioDto): Promise<Usuarios> {
       const usuario = await this.obtenerUsuarioPorId(id);
-      Object.assign(usuario,UpdateUsuarioDto); //actualiza los campos enviados
+      Object.assign(usuario,updateUsuarioDto); //actualiza los campos enviados
     return this.usuarioRepo.save(usuario);
   }
 

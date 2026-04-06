@@ -64,6 +64,22 @@ export class MovimientosService {
   async remove(id: number) {
     const movimiento = await this.findOne(id);
     await this.movimientoRepo.remove(movimiento);
-    return {message: 'Movimiento eliminado correctamente'};
+    return { message: 'Movimiento eliminado correctamente' };
+  }
+
+  //filtro para mes y año
+
+  async findByMonth(mes: number, anio: number) {
+    const inicio = new Date(anio, mes - 1, 1);
+    const fin = new Date(anio, mes, 0);
+    return await this.movimientoRepo
+      .createQueryBuilder('movimiento')
+      .where('movimiento.fecha BETWEEN :inicio AND :fin', {
+        inicio,
+        fin,
+      })
+      .leftJoinAndSelect('movimiento.usuario', 'usuario')
+      .getMany();
+
   }
 }

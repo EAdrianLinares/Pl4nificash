@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from 'typeorm';
 import { Usuarios } from '../../usuarios/entities/usuario.entity';
+import {TipoMovimiento, CategoriaMovimiento} from '../enum/movement.enum';
 
 @Entity()
 export class Movimiento {
@@ -9,9 +10,15 @@ export class Movimiento {
 
   @Column({
     type: 'enum',
-    enum: ['INGRESO', 'GASTO'],
+    enum: TipoMovimiento,
   })
-  tipo!: 'INGRESO' | 'GASTO';
+  tipo!: String;
+  
+  @Column({
+    type: 'enum',
+    enum: CategoriaMovimiento,
+  })
+  categoria!:string;
 
   @Column('decimal', { precision: 10, scale: 2 })
   valor!: number;

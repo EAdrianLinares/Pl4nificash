@@ -1,26 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Movimiento } from './entities/movimiento.entity';
+import { Usuarios } from '../usuarios/entities/usuario.entity';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MovimientosService {
-  create(createMovimientoDto: CreateMovimientoDto) {
-    return 'This action adds a new movimiento';
+
+  constructor(
+
+    @InjectRepository(Movimiento)
+    private readonly movimientoRepo: Repository<Movimiento>,
+
+    @InjectRepository(Usuarios)
+    private readonly usuarioRepo: Repository<Usuarios>,
+  ) { }
+
+  async create(createMovimientoDto: CreateMovimientoDto, userId: number) {
+    const usuario = await this.usuarioRepo.findOne(
+      {
+        where: { id: userId },
+      })
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    const movimiento = this.movimientoRepo.create({
+      ...createMovimientoDto, usuario,
+    });
+    return await this.movimientoRepo.save(movimiento)
   }
 
-  findAll() {
-    return `This action returns all movimientos`;
+
+  async findAll() {
+    return await this.movimientoRepo.find({
+      relations: ['usuario'],
+    })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} movimiento`;
+  async findOne(id: number) {
+    const movimiento = await this.movimientoRepo.findOne({
+      where: { id },
+      relations: ['usuario']
+    });
+    if (!movimiento) {
+      throw new NotFoundException('Movimiento no encontrado')
+    }
+    return movimiento;
   }
 
-  update(id: number, updateMovimientoDto: UpdateMovimientoDto) {
-    return `This action updates a #${id} movimiento`;
+
+  async update(id: number, updateMovimientoDto: UpdateMovimientoDto) {
+    const movimiento = await this.findOne(id);
+    const movimientoActualizado = Object.assign(movimiento, updateMovimientoDto);
+    return await this.movimientoRepo.save(movimientoActualizado);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} movimiento`;
+
+
+  async remove(id: number) {
+    const movimiento = await this.findOne(id);
+    await this.movimientoRepo.remove(movimiento);
+    return {message: 'Movimiento eliminado correctamente'};
   }
 }

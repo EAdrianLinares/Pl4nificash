@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { MovimientosService } from './movimientos.service';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
@@ -9,7 +9,8 @@ export class MovimientosController {
 
   @Post()
   create(@Body() createMovimientoDto: CreateMovimientoDto) {
-    return this.movimientosService.create(createMovimientoDto);
+    const userId = 1;//para pruebas
+    return this.movimientosService.create(createMovimientoDto, userId);
   }
 
   @Get()
@@ -23,7 +24,7 @@ export class MovimientosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovimientoDto: UpdateMovimientoDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateMovimientoDto: UpdateMovimientoDto) {
     return this.movimientosService.update(+id, updateMovimientoDto);
   }
 

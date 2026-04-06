@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsNotEmpty, IsEmail, } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, MinLength, } from 'class-validator';
 
 
 export class CreateUsuarioDto {
@@ -13,5 +13,6 @@ export class CreateUsuarioDto {
 
     @IsString()
     @IsNotEmpty()
+    @MinLength(8)
     password!: string;
 }

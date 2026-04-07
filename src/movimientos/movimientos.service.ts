@@ -18,27 +18,31 @@ export class MovimientosService {
     private readonly usuarioRepo: Repository<Usuarios>,
   ) { }
 
+
   async create(createMovimientoDto: CreateMovimientoDto, userId: number) {
     const usuario = await this.usuarioRepo.findOne(
       {
         where: { id: userId },
-      })
-
-    if (!usuario) {
-      throw new NotFoundException('Usuario no encontrado');
-    }
+      });
+       
+  if (!usuario) {
+    throw new NotFoundException('Usuario no encontrado');
+  }
 
     const movimiento = this.movimientoRepo.create({
       ...createMovimientoDto, usuario,
     });
-    return await this.movimientoRepo.save(movimiento)
+    return this.movimientoRepo.save(movimiento)
   }
 
 
-  async findAll() {
+  async findAllByUser(userId: number) {
     return await this.movimientoRepo.find({
+      where: {
+        usuario: { id: userId },
+      },
       relations: ['usuario'],
-    })
+    });
   }
 
   async findOne(id: number) {

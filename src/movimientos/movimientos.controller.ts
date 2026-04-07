@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, UseGuards, Request } from '@nestjs/common';
 import { MovimientosService } from './movimientos.service';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
@@ -8,11 +8,15 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 export class MovimientosController {
   constructor(private readonly movimientosService: MovimientosService) { }
 
+
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createMovimientoDto: CreateMovimientoDto) {
-    const userId = 1;//para pruebas
-    return this.movimientosService.create(createMovimientoDto, userId);
-  }
+  create(@Request() req, @Body() createMovimientoDto: CreateMovimientoDto) {
+  return this.movimientosService.create(
+    createMovimientoDto,
+    req.user.userId, 
+  );
+}
 
    //filtro por mes
   @Get('filtro/mes')
@@ -24,8 +28,8 @@ export class MovimientosController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.movimientosService.findAll();
+  findAllByUser(@Request()req) {
+    return this.movimientosService.findAllByUser(req.user.userId);
   }
 
   @Get(':id')

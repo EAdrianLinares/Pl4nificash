@@ -6,7 +6,7 @@ import { Movimiento } from '../../movimientos/entities/movimiento.entity';
 export class Usuarios {
 
     @PrimaryGeneratedColumn()
-    id:number;
+    id!:number;
 
     @Column()
     nombre!: string; 

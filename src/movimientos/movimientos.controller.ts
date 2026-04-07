@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { MovimientosService } from './movimientos.service';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('movimientos')
 export class MovimientosController {
@@ -20,6 +21,8 @@ export class MovimientosController {
     @Query('anio', ParseIntPipe) anio: number,
   ) { return this.movimientosService.findByMonth(mes, anio) }
 
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.movimientosService.findAll();

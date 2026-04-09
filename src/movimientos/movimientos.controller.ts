@@ -21,9 +21,10 @@ export class MovimientosController {
    //filtro por mes
   @Get('filtro/mes')
   findByMonth(
-    @Query('mes', ParseIntPipe) mes: number,
-    @Query('anio', ParseIntPipe) anio: number,
-  ) { return this.movimientosService.findByMonth(mes, anio) }
+    @Query('mes') mes: number,
+    @Query('anio') anio: number,
+    @Request() req:any,
+  ) { return this.movimientosService.findByMonth(mes, anio, req.user.userId) }
 
 
   @UseGuards(JwtAuthGuard)
@@ -32,19 +33,20 @@ export class MovimientosController {
     return this.movimientosService.findAllByUser(req.user.userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.movimientosService.findOne(+id);
+  findOne(@Param('id') id: string, @Request()req:any) {
+    return this.movimientosService.findOne(+id, req.user.userId);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateMovimientoDto: UpdateMovimientoDto) {
-    return this.movimientosService.update(+id, updateMovimientoDto);
+  update(@Param('id') id: string, @Request() req:any, @Body() updateMovimientoDto: UpdateMovimientoDto) {
+    return this.movimientosService.update(+id, req.user.userId, updateMovimientoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.movimientosService.remove(+id);
+  remove(@Param('id') id: string, @Request() req:any) {
+    return this.movimientosService.remove(+id, req.user.userId);
   }
 
  

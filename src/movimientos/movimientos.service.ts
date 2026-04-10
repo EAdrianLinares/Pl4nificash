@@ -20,6 +20,11 @@ export class MovimientosService {
 
 
   async create(createMovimientoDto: CreateMovimientoDto, userId: number) {
+
+      console.log("DTO RECIBIDO:", createMovimientoDto);
+      console.log("USER ID:", userId);
+
+
     const usuario = await this.usuarioRepo.findOne(
       {
         where: { id: userId },
@@ -30,7 +35,8 @@ export class MovimientosService {
     }
 
     const movimiento = this.movimientoRepo.create({
-      ...createMovimientoDto, usuario,
+      ...createMovimientoDto, 
+      usuario: usuario,
     });
     return this.movimientoRepo.save(movimiento)
   }

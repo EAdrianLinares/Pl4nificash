@@ -1,4 +1,4 @@
-import {IsString, IsEnum, IsNotEmpty, IsDate, IsNumber } from 'class-validator';
+import {IsString, IsEnum, IsNotEmpty, IsDate, IsNumber, IsDateString } from 'class-validator';
 import {Type} from 'class-transformer';
 import { TipoMovimiento, CategoriaMovimiento } from '../enum/movement.enum';
 
@@ -20,11 +20,11 @@ export class CreateMovimientoDto {
     @IsNotEmpty()
     descripcion!: string;
 
-    //convertir a fecha un string
-    @Type (()=>Date)
+    
+  
     @IsNotEmpty()
-    @IsDate()
-    fecha!: Date;
+    @IsDateString()
+    fecha!: String;
     
 }
 

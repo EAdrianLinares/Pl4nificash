@@ -11,7 +11,7 @@ export class MovimientosController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Request() req, @Body() createMovimientoDto: CreateMovimientoDto) {
+  create(@Request() req:any, @Body() createMovimientoDto: CreateMovimientoDto) {
   return this.movimientosService.create(
     createMovimientoDto,
     req.user.userId, 

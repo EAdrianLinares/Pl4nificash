@@ -1,53 +1,37 @@
-import { useEffect, useState } from "react";
-import { getMovimientos, crearMovimiento } from "../api/movimientos";
-import {
-    ordenarPorFecha,
-    ultimosMovimientos,
-    calcularDisponible
-} from "../utils/movimientosUtils";
+import { useState } from "react";
+import { crearMovimiento } from "../api/movimientos";
+import { MovimientoList } from "../components/MovimientoList";
+import { DisponibleCard } from "../components/DisponibleCard";
+import { ModalMovimiento } from "../components/ModalMovimiento";
+import { useMovimientos } from "../hooks/useMovimientos";
+
 
 function Dashboard() {
-    //lista de Movimientos
-    const [movimientos, setMovimientos] = useState<any[]>([]);
+   
+    const {
+        movimientos,
+        ultimos5,
+        disponible,
+        loading,
+        cargarMovimientos,
+    } = useMovimientos();
 
-    //Estado del Modal
+    // Estado del Modal
     const [mostrarModal, setMostrarModal] = useState(false);
 
-    //formulario
+    // formulario
     const [tipo, setTipo] = useState("ingreso");
     const [categoria, setCategoria] = useState("fijo");
     const [descripcion, setDescripcion] = useState("");
     const [valor, setValor] = useState("");
     const [fecha, setFecha] = useState("");
 
-    // Cargar movimientos
-    useEffect(() => {
-        cargarMovimientos();
-    }, []);
-
-    const cargarMovimientos = async () => {
-        const data = await getMovimientos();
-
-        console.log("ANTES ORDEN", data);
-        
-        if (Array.isArray(data)) {
-            const ordenados = ordenarPorFecha(data);
-            console.log("DESPUES ORDEN:", ordenados)
-
-            setMovimientos(ordenados);
-        } else {
-            console.error("Error:", data);
-            setMovimientos([]);
-        }
-    };
-
-
     // Crear movimiento
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         try {
-            await  crearMovimiento ({
+            await crearMovimiento({
                 tipo,
                 categoria,
                 descripcion,
@@ -55,148 +39,55 @@ function Dashboard() {
                 fecha,
             });
 
-            // cerrar el Modal
             setMostrarModal(false);
 
-            // limpiar formulario
             setDescripcion("");
             setValor("");
             setFecha("");
 
-            // recargar lista
             await cargarMovimientos();
         } catch (error) {
-            console.log("Error al guardar:", error)
+            console.log("Error al guardar:", error);
         }
     };
-   
-    const disponible = calcularDisponible(movimientos);
+
+    if (loading) return <p>Cargando...</p>;
+
 
     return (
         <div className="container mt-4">
             <h2>Dashboard - Planificash</h2>
 
+            {/*Lista */}
+            <DisponibleCard disponible={disponible} />
+            <MovimientoList movimientos={ultimos5} />
 
-
-            {/* 🔷 LISTA */}
-            <h4> Disponible: ${disponible} </h4>
-            <ul className="list-group mb-4">
-                {ultimosMovimientos(movimientos).map((mov) => (
-                        <li
-                            key={mov.id || mov.fecha + mov.descripcion}
-                            className="list-group-item d-flex justify-content-between"
-                        >
-                            <span>
-                                {mov.descripcion} ({mov.tipo})- {""}
-                                {new Date(mov.fecha + "T00:00:00").toLocaleDateString("es-CO")}
-                            </span>
-                            <strong>${mov.valor}</strong>
-                        </li>
-                    ))}
-            </ul>
-
-
-
-            {/* 🔷 BOTÓN */}
+            {/*Botón*/}
             <button className="btn btn-success mb-3"
                 onClick={() => setMostrarModal(true)}>
                 Agregar Movimiento
             </button>
 
+            {/*Click botón => Modal*/}
 
-            {/* 🔷 MODAL */}
+            <ModalMovimiento
+                mostrar={mostrarModal}
+                onClose={() => setMostrarModal(false)}
+                onSubmit={handleSubmit}
+                tipo={tipo}
+                setTipo={setTipo}
+                categoria={categoria}
+                setCategoria={setCategoria}
+                descripcion={descripcion}
+                setDescripcion={setDescripcion}
+                valor={valor}
+                setValor={setValor}
+                fecha={fecha}
+                setFecha={setFecha}
+            />
 
-            {mostrarModal && (
-                <>
-                    <div className="modal-backdrop fade show"> </div>
 
-                    <div
-                        className="modal fade show"
-                        style={{ display: "block" }}
-                    >
 
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-
-                                {/* HEADER */}
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Nuevo Movimiento</h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setMostrarModal(false)}
-                                    ></button>
-                                </div>
-
-                                {/* FORM */}
-                                <form onSubmit={handleSubmit}>
-                                    <div className="modal-body">
-
-                                        <select
-                                            className="form-control mb-2"
-                                            value={tipo}
-                                            onChange={(e) => setTipo(e.target.value)}
-                                        >
-                                            <option value="ingreso">Ingreso</option>
-                                            <option value="gasto">Gasto</option>
-                                        </select>
-
-                                        <select
-                                            className="form-control mb-2"
-                                            value={categoria}
-                                            onChange={(e) => setCategoria(e.target.value)}
-                                        >
-                                            <option value="fijo">Fijo</option>
-                                            <option value="variable">Variable</option>
-                                        </select>
-
-                                        <input
-                                            type="text"
-                                            className="form-control mb-2"
-                                            placeholder="Descripción"
-                                            value={descripcion}
-                                            onChange={(e) => setDescripcion(e.target.value)}
-                                            required
-                                        />
-
-                                        <input
-                                            type="number"
-                                            className="form-control mb-2"
-                                            placeholder="Valor"
-                                            value={valor}
-                                            onChange={(e) => setValor(e.target.value)}
-                                            required
-                                        />
-
-                                        <input
-                                            type="date"
-                                            className="form-control"
-                                            value={fecha}
-                                            onChange={(e) => setFecha(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-
-                                    {/* FOOTER */}
-                                    <div className="modal-footer">
-                                        <button
-                                            type="button"
-                                            className="btn btn-secondary"
-                                            onClick={() => setMostrarModal(false)}
-                                        >
-                                            Cancelar
-                                        </button>
-
-                                        <button type="submit" className="btn btn-primary">
-                                            Guardar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            )}
         </div>
     )
 }

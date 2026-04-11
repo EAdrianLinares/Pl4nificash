@@ -23,21 +23,33 @@ function Login() {
 
     return (
 
-        <div>
-            <h1>Inicio de Sesión</h1>
+        <div className="container d-flex justify-content-center align-items-center vh-100">
+            <div className="card p-4 shadow" style={{ width: "350px" }}>
 
-            <form onSubmit={handleSubmit}>
-                <input type="email" placeholder="Email"
-                    value={email}
-                    onChange={(e) =>
-                        setEmail(e.target.value)} />
+                <div className="text-center">
+                    <h4>Pl4nifica$h </h4>
+                    <h5> Inicio de Sesión</h5><br />
+                </div>
 
-                <input type="password" placeholder="Contraseña"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
 
-                <button type="submit">Ingresar</button>
-            </form>
+                <form onSubmit={handleSubmit}>
+                    <input className="form-control mb-2"
+                        type="email" placeholder="Email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)} />
+
+                    <input className="form-control mb-3"
+                        type="password" placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)} />
+
+                    <div className="text-center">
+                        <button className="btn btn-primary" type="submit">
+                            Ingresar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

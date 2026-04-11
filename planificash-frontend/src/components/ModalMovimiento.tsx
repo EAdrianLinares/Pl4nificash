@@ -97,19 +97,22 @@ export const ModalMovimiento = ({
               </div>
 
               {/* FOOTER */}
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={onClose}
-                >
-                  Cancelar
-                </button>
 
-                <button type="submit" className="btn btn-primary">
-                  Guardar
-                </button>
-              </div>
+              
+                <div className="modal-footer d-flex justify-content-center gap-2">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onClose}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button type="submit" className="btn btn-primary">
+                    Guardar
+                  </button>
+                </div>
+              
             </form>
 
           </div>

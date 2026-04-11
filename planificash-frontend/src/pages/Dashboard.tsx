@@ -6,9 +6,8 @@ import { ModalMovimiento } from "../components/ModalMovimiento";
 import { useMovimientos } from "../hooks/useMovimientos";
 
 
-
 function Dashboard() {
-   
+
     const {
         movimientos,
         ultimos5,
@@ -17,7 +16,7 @@ function Dashboard() {
         cargarMovimientos,
     } = useMovimientos();
 
-    
+
     // Estado del Modal
     const [mostrarModal, setMostrarModal] = useState(false);
 
@@ -58,38 +57,45 @@ function Dashboard() {
 
     return (
         <div className="container mt-4">
-            <h2>Dashboard - Planificash</h2>
-
-            {/*Lista */}
-            <DisponibleCard disponible={disponible} />
-            <MovimientoList movimientos={ultimos5} />
-
-            {/*Botón*/}
-            <button className="btn btn-success mb-3"
-                onClick={() => setMostrarModal(true)}>
-                Agregar Movimiento
-            </button>
-
-            {/*Click botón => Modal*/}
-
-            <ModalMovimiento
-                mostrar={mostrarModal}
-                onClose={() => setMostrarModal(false)}
-                onSubmit={handleSubmit}
-                tipo={tipo}
-                setTipo={setTipo}
-                categoria={categoria}
-                setCategoria={setCategoria}
-                descripcion={descripcion}
-                setDescripcion={setDescripcion}
-                valor={valor}
-                setValor={setValor}
-                fecha={fecha}
-                setFecha={setFecha}
-            />
+            <div className="row justify-content-center">
+                <div className="col-12" col-md-8 col-lg-6>
 
 
+                    <div className="text-center mb-4">
+                        <h2>Dashboard - Planificash</h2>
 
+                        {/*Lista */}
+                        <DisponibleCard disponible={disponible} />
+                        <MovimientoList movimientos={ultimos5} />
+
+                        {/*Botón*/}
+                       <div className="text-center mt-3">
+                         <button className="btn btn-success mb-3"
+                            onClick={() => setMostrarModal(true)}>
+                            Agregar Movimiento
+                        </button>
+                       </div>
+
+                        {/*Click botón => Modal*/}
+
+                        <ModalMovimiento
+                            mostrar={mostrarModal}
+                            onClose={() => setMostrarModal(false)}
+                            onSubmit={handleSubmit}
+                            tipo={tipo}
+                            setTipo={setTipo}
+                            categoria={categoria}
+                            setCategoria={setCategoria}
+                            descripcion={descripcion}
+                            setDescripcion={setDescripcion}
+                            valor={valor}
+                            setValor={setValor}
+                            fecha={fecha}
+                            setFecha={setFecha}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

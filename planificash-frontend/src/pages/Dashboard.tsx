@@ -27,10 +27,13 @@ function Dashboard() {
 
     const cargarMovimientos = async () => {
         const data = await getMovimientos();
-        console.log ("DATA", data);
 
+        console.log("ANTES ORDEN", data);
+        
         if (Array.isArray(data)) {
             const ordenados = ordenarPorFecha(data);
+            console.log("DESPUES ORDEN:", ordenados)
+
             setMovimientos(ordenados);
         } else {
             console.error("Error:", data);
@@ -66,7 +69,7 @@ function Dashboard() {
             console.log("Error al guardar:", error)
         }
     };
-    const ultimos5 = ultimosMovimientos(movimientos);
+   
     const disponible = calcularDisponible(movimientos);
 
     return (
@@ -78,15 +81,14 @@ function Dashboard() {
             {/* 🔷 LISTA */}
             <h4> Disponible: ${disponible} </h4>
             <ul className="list-group mb-4">
-                {Array.isArray(ultimos5) &&
-                    ultimos5.map((mov) => (
+                {ultimosMovimientos(movimientos).map((mov) => (
                         <li
-                            key={mov.id}
+                            key={mov.id || mov.fecha + mov.descripcion}
                             className="list-group-item d-flex justify-content-between"
                         >
                             <span>
                                 {mov.descripcion} ({mov.tipo})- {""}
-                                {new Date(mov.fecha).toLocaleDateString("es-CO")}
+                                {new Date(mov.fecha + "T00:00:00").toLocaleDateString("es-CO")}
                             </span>
                             <strong>${mov.valor}</strong>
                         </li>

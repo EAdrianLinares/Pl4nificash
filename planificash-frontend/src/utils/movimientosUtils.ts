@@ -1,7 +1,7 @@
 export const ordenarPorFecha = (movimientos: any[]) => {
   return [...movimientos].sort((a, b) => {
-    const fechaA = new Date(a.fecha).getTime();
-    const fechaB = new Date(b.fecha).getTime();
+    const fechaA = new Date(a.fecha + "T00:00:00").getTime();
+    const fechaB = new Date(b.fecha + "T00:00:00").getTime();
      return fechaB - fechaA;
   });
 };

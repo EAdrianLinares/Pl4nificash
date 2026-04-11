@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getMovimientos, crearMovimiento } from "../api/movimientos";
-import { data } from "react-router-dom";
-
 
 function Dashboard() {
+    //lista de Movimientos
     const [movimientos, setMovimientos] = useState<any[]>([]);
 
+    //Estado del Modal
+    const [mostrarModal, setMostrarModal] = useState (false);
+
+    //formulario
     const [tipo, setTipo] = useState("ingreso");
     const [categoria, setCategoria] = useState("fijo");
     const [descripcion, setDescripcion] = useState("");
@@ -19,9 +22,7 @@ function Dashboard() {
 
     const cargarMovimientos = async () => {
         const data = await getMovimientos();
-
-        console.log("DATA BACKEND:", data);
-
+        
         if (Array.isArray(data)) {
             setMovimientos(data);
         } else {
@@ -35,6 +36,7 @@ function Dashboard() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
+        try{
         await crearMovimiento({
             tipo,
             categoria,
@@ -43,7 +45,10 @@ function Dashboard() {
             fecha,
         });
 
+        // cerrar el Modal
+            setMostrarModal(false);
 
+                
         // limpiar formulario
         setDescripcion("");
         setValor("");
@@ -51,9 +56,9 @@ function Dashboard() {
 
         // recargar lista
         await cargarMovimientos();
-
-
-
+    } catch (error) {
+        console.log("Error al guardar:", error)
+    }
     };
 
     return (
@@ -82,19 +87,22 @@ function Dashboard() {
 
             {/* 🔷 BOTÓN */}
             <button className="btn btn-success mb-3"
-                data-bs-toggle="modal"
-                data-bs-target="#modalMovimiento">
+                onClick={()=> setMostrarModal(true)}>
                 Agregar Movimiento
             </button>
 
 
             {/* 🔷 MODAL */}
+
+            {mostrarModal && (
+                <>
+                <div className="modal-backdrop fade show"> </div>
+
             <div
-                className="modal fade"
-                id="modalMovimiento"
-                tabIndex={-1}
-                aria-hidden="true"
+                className="modal fade show"
+                style={{display:"block"}}
             >
+
                 <div className="modal-dialog">
                     <div className="modal-content">
 
@@ -104,7 +112,7 @@ function Dashboard() {
                             <button
                                 type="button"
                                 className="btn-close"
-                                data-bs-dismiss="modal"
+                                onClick={() => setMostrarModal(false)}
                             ></button>
                         </div>
 
@@ -162,7 +170,7 @@ function Dashboard() {
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
+                                    onClick={()=> setMostrarModal(false)}
                                 >
                                     Cancelar
                                 </button>
@@ -172,12 +180,15 @@ function Dashboard() {
                                 </button>
                             </div>
                         </form>
-
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
+            )};
         </div>
-    );
+    )
 }
 
 export default Dashboard;
+
+

@@ -27,7 +27,7 @@ export const useMovimientos = () => {
   useEffect(() => {
     cargarMovimientos();
   }, []);
-
+  
   const ultimos5 = ultimosMovimientos(movimientos);
   const disponible = calcularDisponible(movimientos);
 

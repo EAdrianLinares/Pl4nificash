@@ -6,6 +6,7 @@ import { ModalMovimiento } from "../components/ModalMovimiento";
 import { useMovimientos } from "../hooks/useMovimientos";
 
 
+
 function Dashboard() {
    
     const {
@@ -16,6 +17,7 @@ function Dashboard() {
         cargarMovimientos,
     } = useMovimientos();
 
+    
     // Estado del Modal
     const [mostrarModal, setMostrarModal] = useState(false);
 

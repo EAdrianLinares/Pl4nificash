@@ -20,13 +20,13 @@ function Register() {
 
         setError(""); // limpiar errores anteriores
 
-        // 🔴 Validación campos vacíos
+        // Validación campos vacíos
         if (!nombre || !email || !password || !confirmPassword) {
             setError("Todos los campos son obligatorios");
             return;
         }
 
-        // 🔴 Validación contraseñas
+        // Validación contraseñas
         if (password !== confirmPassword) {
             setError("Las contraseñas no coinciden");
             return;

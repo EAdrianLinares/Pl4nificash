@@ -56,8 +56,8 @@ export const ModalMovimiento = ({
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
                 >
-                  <option value="ingreso">Ingreso</option>
-                  <option value="gasto">Gasto</option>
+                  <option value="Ingreso">Ingreso</option>
+                  <option value="Gasto">Gasto</option>
                 </select>
 
                 <select
@@ -65,8 +65,8 @@ export const ModalMovimiento = ({
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
                 >
-                  <option value="fijo">Fijo</option>
-                  <option value="variable">Variable</option>
+                  <option value="Fijo">Fijo</option>
+                  <option value="Variable">Variable</option>
                 </select>
 
                 <input

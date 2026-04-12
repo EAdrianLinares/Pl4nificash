@@ -9,23 +9,25 @@ function Login() {
 
 
     const handleSubmit = async (e: any) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    try {
-        const data = await login(email, password);
+        try {
+            const data = await login(email, password);
+            
 
-        if (data.access_token) {
-            localStorage.setItem("token", data.access_token);
-            navigate("/dashboard");
-        } else {
-            alert("Credenciales incorrectas");
+            if (data.access_token) {
+                localStorage.setItem("token", data.access_token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate("/dashboard");
+            } else {
+                alert("Credenciales incorrectas");
+            }
+
+        } catch (error) {
+            console.error("Error en el Login", error);
+            alert("Error al iniciar sesión");
         }
-
-    } catch (error) {
-        console.error("Error en el Login", error);
-        alert("Error al iniciar sesión");
-    }
-};
+    };
 
 
     return (
@@ -56,10 +58,10 @@ function Login() {
                             Ingresar</button>
                     </div>
                     <br />
-                  <div className="text-center">
-                    <p> ¿No tienes cuenta?
-                        <a href="/register">Regístrate</a>
-                    </p>
+                    <div className="text-center">
+                        <p> ¿No tienes cuenta?
+                            <a href="/register">Regístrate</a>
+                        </p>
 
                     </div>
                 </form>

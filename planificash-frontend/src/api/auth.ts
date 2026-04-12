@@ -16,6 +16,7 @@ async function fetchData(endpoint: string, body: any) {
   }
 
   return data;
+  
 }
 
 // Login

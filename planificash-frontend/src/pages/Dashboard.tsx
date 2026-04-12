@@ -54,6 +54,7 @@ function Dashboard() {
 
     if (loading) return <p>Cargando...</p>;
 
+    
 
     return (
         <div className="container mt-4">
@@ -69,12 +70,12 @@ function Dashboard() {
                         <MovimientoList movimientos={ultimos5} />
 
                         {/*Botón*/}
-                       <div className="text-center mt-3">
-                         <button className="btn btn-success mb-3"
-                            onClick={() => setMostrarModal(true)}>
-                            Agregar Movimiento
-                        </button>
-                       </div>
+                        <div className="text-center mt-3">
+                            <button className="btn btn-success mb-3"
+                                onClick={() => setMostrarModal(true)}>
+                                Agregar Movimiento
+                            </button>
+                        </div>
 
                         {/*Click botón => Modal*/}
 

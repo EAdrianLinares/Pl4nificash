@@ -1,11 +1,9 @@
-import {Navigate} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-function PrivateRoute({children}:any) {
-    const token = localStorage.getItem("token");
+function PrivateRoute() {
+  const token = localStorage.getItem("token");
 
-    if(!token) {
-        return <Navigate to="/" />;
-    }
-    return children;
+  return token ? <Outlet /> : <Navigate to="/" />;
 }
+
 export default PrivateRoute;

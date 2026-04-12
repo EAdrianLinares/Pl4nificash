@@ -16,3 +16,48 @@ body {
 .container {
 padding-bottom: 40px;
 }
+
+/* NavBar*/
+/* NAVBAR */
+.navbar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1e293b;
+  color: white;
+}
+
+.navbar-logo {
+  margin: 0;
+  font-size: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.navbar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-logout {
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.navbar-logout:hover {
+  background: #dc2626;
+}

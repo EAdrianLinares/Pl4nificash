@@ -9,7 +9,7 @@ import { useMovimientos } from "../hooks/useMovimientos";
 function Dashboard() {
 
     const {
-        movimientos,
+       
         ultimos5,
         disponible,
         loading,

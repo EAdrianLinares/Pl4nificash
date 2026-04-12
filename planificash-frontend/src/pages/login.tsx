@@ -55,7 +55,7 @@ function Login() {
                         <button className="btn btn-primary" type="submit">
                             Ingresar</button>
                     </div>
-                    
+                    <br />
                   <div className="text-center">
                     <p> ¿No tienes cuenta?
                         <a href="/register">Regístrate</a>

@@ -11,19 +11,20 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      // mysql://root:seRVtpHoSTiKHtYCEfWNFgkgtHJDOHpa@junction.proxy.rlwy.net:44721/railway
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: 'junction.proxy.rlwy.net',
+      port: 44721,
       username: 'root',          // cambia si es diferente
-      password: '',        // tu contraseña
+      password: 'seRVtpHoSTiKHtYCEfWNFgkgtHJDOHpa',        // tu contraseña
       database: 'planificash',   // tu base de datos
       autoLoadEntities: true,
       synchronize: false, // 🔴 MUY IMPORTANTE
     }),
-    UsuariosModule, 
-    AuthModule, 
+    UsuariosModule,
+    AuthModule,
     MovimientosModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

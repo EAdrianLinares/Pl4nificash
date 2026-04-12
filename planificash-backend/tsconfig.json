@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES2023",
+     "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"]
+    },
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    "skipLibCheck": true,
+    "strictNullChecks": false
+  }
+}

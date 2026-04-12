@@ -9,16 +9,23 @@ function Login() {
 
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault();
-        try {
-            const data = await login(email, password);
-            localStorage.setItem("token", data.access_token);
-            navigate("/dashboard")
+    e.preventDefault();
 
-        } catch (error) {
-            console.error("Error en el Login", error);
+    try {
+        const data = await login(email, password);
+
+        if (data.access_token) {
+            localStorage.setItem("token", data.access_token);
+            navigate("/dashboard");
+        } else {
+            alert("Credenciales incorrectas");
         }
-    };
+
+    } catch (error) {
+        console.error("Error en el Login", error);
+        alert("Error al iniciar sesión");
+    }
+};
 
 
     return (

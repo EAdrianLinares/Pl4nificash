@@ -5,8 +5,8 @@ import PrivateRoute from './routes/PrivateRoutes'
 
 import Login from './pages/login';
 import Dashboard from "./pages/Dashboard"
-{/*import Register from "./pages/Register";
-import Movimientos from "./pages/Movimientos";*/}
+{/*import Register from "./pages/Register";*/}
+import Movimientos from "./pages/Movimientos";
 
 
 
@@ -23,7 +23,7 @@ function App() {
         <Route element={<PrivateRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          {/*<Route path="/movimientos" element={<Movimientos />} />*/}
+         <Route path="/movimientos" element={<Movimientos />} />
         </Route>
         </Route>
 

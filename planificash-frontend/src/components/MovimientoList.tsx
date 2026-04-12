@@ -14,7 +14,7 @@ export const MovimientoList = ({ movimientos }: Props) => {
             {mov.descripcion} ({mov.tipo}) -{" "}
             {new Date(mov.fecha + "T00:00:00").toLocaleDateString("es-CO")}
           </span>
-          <strong>${mov.valor}</strong>
+          <strong>${Number(mov.valor).toLocaleString()}</strong>
         </li>
       ))}
     </ul>

@@ -62,7 +62,7 @@ function Dashboard() {
 
 
                     <div className="text-center mb-4">
-                        <h2>Dashboard - Planificash</h2>
+                        <h2>Dashboard</h2>
 
                         {/*Lista */}
                         <DisponibleCard disponible={disponible} />

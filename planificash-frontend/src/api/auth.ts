@@ -1,21 +1,29 @@
-const API_URL = "http://localhost:3000"
+const API_URL = "http://localhost:3000";
 
+async function fetchData(endpoint: string, body: any) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error en la petición");
+  }
+
+  return data;
+}
+
+// Login
 export async function login(email: string, password: string) {
+  return fetchData("/auth/login", { email, password });
+}
 
-    const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-
-    //Validación
-    if (!response.ok) {
-        throw new Error(data.message || "Error en login");
-    }
-
-    return data;
+// Register
+export async function register(nombre: string, email: string, password: string) {
+  return fetchData("/auth/register", { nombre, email, password });
 }

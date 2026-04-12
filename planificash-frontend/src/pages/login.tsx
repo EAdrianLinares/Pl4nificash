@@ -55,6 +55,13 @@ function Login() {
                         <button className="btn btn-primary" type="submit">
                             Ingresar</button>
                     </div>
+                    
+                  <div className="text-center">
+                    <p> ¿No tienes cuenta?
+                        <a href="/register">Regístrate</a>
+                    </p>
+
+                    </div>
                 </form>
             </div>
         </div>

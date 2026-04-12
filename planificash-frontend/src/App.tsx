@@ -5,7 +5,7 @@ import PrivateRoute from './routes/PrivateRoutes'
 
 import Login from './pages/login';
 import Dashboard from "./pages/Dashboard"
-{/*import Register from "./pages/Register";*/}
+import Register from "./pages/Register";
 import Movimientos from "./pages/Movimientos";
 
 
@@ -17,7 +17,7 @@ function App() {
 
         {/* Rutas públicas */}
         <Route path="/" element={<Login />} />
-        {/*<Route path="/register" element={<Register />} />*/}
+        <Route path="/register" element={<Register />} />
 
         {/* Rutas privadas con layout */}
         <Route element={<PrivateRoute />}>

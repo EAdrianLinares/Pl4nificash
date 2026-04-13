@@ -13,8 +13,9 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'http://localhost:5173',
-      'https://pl4nificash.vercel.app/'
+     '*',
+      //'http://localhost:5173',
+      //'https://pl4nificash.vercel.app/',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',

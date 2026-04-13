@@ -9,7 +9,6 @@ import { useMovimientos } from "../hooks/useMovimientos";
 function Dashboard() {
 
     const {
-       
         ultimos5,
         disponible,
         loading,
@@ -21,8 +20,8 @@ function Dashboard() {
     const [mostrarModal, setMostrarModal] = useState(false);
 
     // formulario
-    const [tipo, setTipo] = useState("ingreso");
-    const [categoria, setCategoria] = useState("fijo");
+    const [tipo, setTipo] = useState("Ingreso");
+    const [categoria, setCategoria] = useState("Fijo");
     const [descripcion, setDescripcion] = useState("");
     const [valor, setValor] = useState("");
     const [fecha, setFecha] = useState("");
@@ -39,7 +38,7 @@ function Dashboard() {
                 valor: Number(valor),
                 fecha,
             });
-
+            
             setMostrarModal(false);
 
             setDescripcion("");
@@ -49,6 +48,7 @@ function Dashboard() {
             await cargarMovimientos();
         } catch (error) {
             console.log("Error al guardar:", error);
+            
         }
     };
 

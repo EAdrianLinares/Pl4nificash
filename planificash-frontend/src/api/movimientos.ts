@@ -11,7 +11,7 @@ export async function getMovimientos() {
   });
 
   const data = await response.json();
-  console.log("RECIBO:", data);
+  return data;
 }
 
 export async function crearMovimiento(movimiento: any) {

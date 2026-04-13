@@ -13,15 +13,15 @@ export const ultimosMovimientos = (movimientos: any[], limite = 5) => {
 export const calcularDisponible = (movimientos: any[]) => {
   return movimientos.reduce((acc, mov) => {
 
-    const tipo = mov.tipo?.trim().toLowerCase();
+    const tipo = mov.tipo?.trim();
 
     const valor = Number(mov.valor);
     const acumulado = Number(acc);
 
     if (isNaN(valor)) return acumulado;
 
-    if (tipo === "ingreso") return acumulado + valor;
-    if (tipo === "gasto") return acumulado - valor;
+    if (tipo === "Ingreso") return acumulado + valor;
+    if (tipo === "Gasto") return acumulado - valor;
 
     return acumulado;
 

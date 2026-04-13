@@ -1,21 +1,26 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core'; 
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe({
-    whitelist:true, //Elimina datos no requeridos
-    forbidNonWhitelisted: true, //lanza error si hay propiedades adicionales
-    transform: true, //convierte tipos de datos
+    whitelist:true,
+    forbidNonWhitelisted: true,
+    transform: true,
   }));  
+
   app.enableCors({
-  origin: [
-    'http://localhost:3000',
-    'https://tu-frontend.vercel.app'
-  ],
-  credentials: true,
-});
+    origin: [
+      'http://localhost:5173',
+      'https://https://pl4nificash.vercel.app/'
+    ],
+    credentials: true,
+  });
+
+  // 🔥 ESTA ES LA LÍNEA QUE FALTABA
+  await app.listen(process.env.PORT ?? 3000);
 }
+
 bootstrap();

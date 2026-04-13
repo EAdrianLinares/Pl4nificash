@@ -12,7 +12,7 @@ async function bootstrap() {
   }));  
   app.enableCors({
   origin: [
-    'http://localhost:5173',
+    'http://localhost:3000',
     'https://tu-frontend.vercel.app'
   ],
   credentials: true,

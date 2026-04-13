@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"; 
+
 
 export async function getMovimientos() {
   const token = localStorage.getItem("token");
@@ -10,7 +11,7 @@ export async function getMovimientos() {
   });
 
   const data = await response.json();
-  return data;
+  console.log("RECIBO:", data);
 }
 
 export async function crearMovimiento(movimiento: any) {

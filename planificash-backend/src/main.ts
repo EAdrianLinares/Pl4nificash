@@ -17,11 +17,12 @@ async function bootstrap() {
       'https://pl4nificash.vercel.app/'
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
   });
 
   // 🔥 ESTA ES LA LÍNEA QUE FALTABA
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();

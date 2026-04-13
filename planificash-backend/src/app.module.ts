@@ -21,7 +21,6 @@ import { AppService } from './app.service';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
-
         host: config.get<string>('DB_HOST'),
         port: Number(config.get<string>('DB_PORT')),
         username: config.get<string>('DB_USER'),

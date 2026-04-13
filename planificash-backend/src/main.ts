@@ -10,7 +10,12 @@ async function bootstrap() {
     forbidNonWhitelisted: true, //lanza error si hay propiedades adicionales
     transform: true, //convierte tipos de datos
   }));  
-  app.enableCors();
-  await app.listen(process.env.PORT ?? 3000);
+  app.enableCors({
+  origin: [
+    'http://localhost:5173',
+    'https://tu-frontend.vercel.app'
+  ],
+  credentials: true,
+});
 }
 bootstrap();

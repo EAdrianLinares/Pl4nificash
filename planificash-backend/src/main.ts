@@ -12,12 +12,8 @@ async function bootstrap() {
   }));  
 
   app.enableCors({
-    origin: [
-     '*',
-      //'http://localhost:5173',
-      //'https://pl4nificash.vercel.app/',
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: 'https://pl4nificash.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
   });

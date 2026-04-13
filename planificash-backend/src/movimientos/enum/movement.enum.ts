@@ -1,9 +1,9 @@
 export enum TipoMovimiento {
-  INGRESO = 'ingreso',
-  GASTO = 'gasto',
+  INGRESO = 'Ingreso',
+  GASTO = 'Gasto',
 }
 
 export enum CategoriaMovimiento {
-  FIJO = 'fijo',
-  VARIABLE = 'variable',
+  FIJO = 'Fijo',
+  VARIABLE = 'Variable',
 }

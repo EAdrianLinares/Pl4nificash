@@ -8,6 +8,7 @@ import { MovimientosModule } from './movimientos/movimientos.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MovimientosRecurrentesModule } from './movimientos-recurrentes/movimientos-recurrentes.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { AppService } from './app.service';
   UsuariosModule,
   AuthModule,
   MovimientosModule,
+  MovimientosRecurrentesModule,
   ],
 
   controllers: [AppController],

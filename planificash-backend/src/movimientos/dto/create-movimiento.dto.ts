@@ -24,7 +24,7 @@ export class CreateMovimientoDto {
   
     @IsNotEmpty()
     @IsDateString()
-    fecha!: String;
+    fecha!: Date;
     
 }
 

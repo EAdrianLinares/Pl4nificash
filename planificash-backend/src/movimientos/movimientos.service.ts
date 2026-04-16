@@ -8,6 +8,14 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class MovimientosService {
+  async findByUsuario(userId: number) {
+  return await this.movimientoRepo.find({
+    where: {
+      usuario: { id: userId },
+    },
+    relations: ['usuario'],
+  });
+}
 
   constructor(
 
@@ -82,15 +90,16 @@ return movimiento;
   async findByMonth(mes: number, anio: number, userId: number) {
   const inicio = new Date(anio, mes - 1, 1);
   const fin = new Date(anio, mes, 0);
+
   return await this.movimientoRepo
     .createQueryBuilder('movimiento')
     .where('movimiento.fecha BETWEEN :inicio AND :fin', {
       inicio,
       fin,
     })
-    .andWhere('usuarioId = :userId', {userId})
+    .andWhere('movimiento.usuarioId = :userId', { userId })
     .leftJoinAndSelect('movimiento.usuario', 'usuario')
     .getMany();
+}
+}
 
-}
-}

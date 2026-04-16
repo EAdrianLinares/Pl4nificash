@@ -13,32 +13,34 @@ import { AppService } from './app.service';
   imports: [
     //Cargar variables de entorno (.env)
     ConfigModule.forRoot({
-      isGlobal: true, // disponible en toda la app
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV || 'local'}`,
+      ignoreEnvFile: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development',
     }),
 
-    //Conexión a la base de datos (dinámica)
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'mysql',
-        host: config.get<string>('DB_HOST'),
-        port: Number(config.get<string>('DB_PORT')),
-        username: config.get<string>('DB_USER'),
-        password: config.get<string>('DB_PASS'),
-        database: config.get<string>('DB_NAME'),
+  //Conexión a la base de datos (dinámica)
+  TypeOrmModule.forRootAsync({
+    inject: [ConfigService],
+    useFactory: (config: ConfigService) => ({
+      type: 'mysql',
+      host: config.get<string>('DB_HOST'),
+      port: Number(config.get<string>('DB_PORT')),
+      username: config.get<string>('DB_USER'),
+      password: config.get<string>('DB_PASS'),
+      database: config.get<string>('DB_NAME'),
 
-        autoLoadEntities: true,
-        synchronize: false, // SIEMPRE false en producción
-      }),
+      autoLoadEntities: true,
+      synchronize: false, // SIEMPRE false en producción
     }),
+  }),
 
-    // 🔹 3. Módulos de tu aplicación
-    UsuariosModule,
-    AuthModule,
-    MovimientosModule,
+  // 🔹 3. Módulos de tu aplicación
+  UsuariosModule,
+  AuthModule,
+  MovimientosModule,
   ],
 
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

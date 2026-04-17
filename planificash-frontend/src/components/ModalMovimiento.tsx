@@ -1,3 +1,13 @@
+import {
+  TipoMovimiento,
+  CategoriaMovimiento,
+} from "../constants/movimientos";
+
+import type {
+  TipoMovimientoType,
+  CategoriaMovimientoType,
+} from "../constants/movimientos";
+
 type Props = {
   mostrar: boolean;
   onClose: () => void;
@@ -44,13 +54,14 @@ export const ModalMovimiento = ({
   // 🔥 lógica clave
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    
+
 
     if (categoria === "Fijo") {
       onSubmitRecurrente(e);
     } else {
       onSubmitMovimiento(e);
     }
+
   };
 
   return (
@@ -81,18 +92,17 @@ export const ModalMovimiento = ({
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
                 >
-                  <option value="Ingreso">Ingreso</option>
-                  <option value="Gasto">Gasto</option>
+                  <option value={TipoMovimiento.INGRESO}>Ingreso</option>
+                  <option value={TipoMovimiento.GASTO}>Gasto</option>
                 </select>
 
-                {/* CATEGORIA */}
                 <select
                   className="form-control mb-2"
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
                 >
-                  <option value="Fijo">Fijo</option>
-                  <option value="Variable">Variable</option>
+                  <option value={CategoriaMovimiento.FIJO}>Fijo</option>
+                  <option value={CategoriaMovimiento.VARIABLE}>Variable</option>
                 </select>
 
                 {/* DESCRIPCION */}

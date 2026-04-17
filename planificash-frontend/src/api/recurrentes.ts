@@ -1,4 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import type { CreateRecurrente } from "../types/movimiento";
 
 // 🔐 helper para headers
 function getHeaders() {
@@ -42,7 +43,7 @@ const userId = user.id;
 //////////////////////////////////////////////////////
 // ➕ CREAR RECURRENTE
 //////////////////////////////////////////////////////
-export async function createRecurrente(body: any) {
+export async function createRecurrente(body: CreateRecurrente) {
   const response = await fetch(`${API_URL}/movimientos-recurrentes`, {
     method: "POST",
     headers: getHeaders(),

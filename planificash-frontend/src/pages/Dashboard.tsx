@@ -7,6 +7,15 @@ import { DisponibleCard } from "../components/DisponibleCard";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 
 import { useMovimientos } from "../hooks/useMovimientos";
+import {
+  TipoMovimiento,
+  CategoriaMovimiento,
+} from "../constants/movimientos";
+
+import type {
+  TipoMovimientoType,
+  CategoriaMovimientoType,
+} from "../constants/movimientos";
 
 function Dashboard() {
     const {
@@ -24,8 +33,9 @@ function Dashboard() {
     // =========================
     // FORMULARIO
     // =========================
-    const [tipo, setTipo] = useState("Ingreso");
-    const [categoria, setCategoria] = useState("Variable"); // 🔥 default correcto
+    const [tipo, setTipo] = useState<TipoMovimiento>(TipoMovimiento.INGRESO);
+   const [categoria, setCategoria] = useState<CategoriaMovimientoType>(
+  CategoriaMovimiento.VARIABLE); //default 
     const [descripcion, setDescripcion] = useState("");
     const [valor, setValor] = useState("");
     const [fecha, setFecha] = useState("");

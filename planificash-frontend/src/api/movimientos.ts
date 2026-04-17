@@ -1,4 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"; 
+import type { CreateMovimiento } from "../types/movimiento";
+
 
 
 export async function getMovimientos() {
@@ -14,7 +16,7 @@ export async function getMovimientos() {
   return data;
 }
 
-export async function crearMovimiento(movimiento: any) {
+export async function crearMovimiento(body: CreateMovimiento) {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_URL}/movimientos`, {
@@ -23,7 +25,7 @@ export async function crearMovimiento(movimiento: any) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(movimiento),
+    body: JSON.stringify(body),
   });
 
   const data = await response.json();

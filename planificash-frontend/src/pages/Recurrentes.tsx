@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { normalizarTipo } from "../utils/normalizers";
 import {
   getRecurrentes,
   aplicarRecurrentes,
@@ -8,6 +9,16 @@ import {
 } from "../api/recurrentes";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 import { formatMoney } from "../utils/movimientosUtils";
+
+import {
+  TipoMovimiento,
+  CategoriaMovimiento,
+} from "../constants/movimientos";
+
+import type {
+  TipoMovimientoType,
+  CategoriaMovimientoType,
+} from "../constants/movimientos";
 
 function Recurrentes() {
   const [data, setData] = useState([]);
@@ -23,8 +34,13 @@ function Recurrentes() {
   // =========================
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  const [tipo, setTipo] = useState("Ingreso");
-  const [categoria, setCategoria] = useState("Fijo");
+  const [tipo, setTipo] = useState<TipoMovimientoType>(
+    TipoMovimiento.INGRESO
+  );
+
+  const [categoria, setCategoria] = useState<CategoriaMovimientoType>(
+    CategoriaMovimiento.FIJO
+  );
   const [descripcion, setDescripcion] = useState("");
   const [valor, setValor] = useState("");
   const [fecha, setFecha] = useState("");
@@ -107,7 +123,7 @@ function Recurrentes() {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
 
       const payload = {
-        tipo,
+        tipo: normalizarTipo(tipo),
         nombre: descripcion,
         monto: Number(valor),
         usuario_id: user.id,

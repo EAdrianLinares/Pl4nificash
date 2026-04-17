@@ -7,6 +7,7 @@ import Login from './pages/login';
 import Dashboard from "./pages/Dashboard"
 import Register from "./pages/Register";
 import Movimientos from "./pages/Movimientos";
+import Recurrentes from "./pages/Recurrentes";
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/movimientos" element={<Movimientos />} />
+         <Route path="/recurrentes" element={<Recurrentes />} />
         </Route>
         </Route>
 

@@ -1,0 +1,102 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// 🔐 helper para headers
+function getHeaders() {
+  const token = localStorage.getItem("token");
+
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+//////////////////////////////////////////////////////
+// 📥 OBTENER RECURRENTES
+//////////////////////////////////////////////////////
+export async function getRecurrentes() {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes`, {
+    headers: getHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al obtener recurrentes");
+  }
+
+  return data;
+}
+
+//////////////////////////////////////////////////////
+// ➕ CREAR RECURRENTE
+//////////////////////////////////////////////////////
+export async function createRecurrente(body: any) {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al crear recurrente");
+  }
+
+  return data;
+}
+
+//////////////////////////////////////////////////////
+// ✏️ ACTUALIZAR
+//////////////////////////////////////////////////////
+export async function updateRecurrente(id: number, body: any) {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
+    method: "PATCH",
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al actualizar");
+  }
+
+  return data;
+}
+
+//////////////////////////////////////////////////////
+// ❌ ELIMINAR (soft delete)
+//////////////////////////////////////////////////////
+export async function deleteRecurrente(id: number) {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al eliminar");
+  }
+
+  return data;
+}
+
+//////////////////////////////////////////////////////
+// 🔥 APLICAR MES
+//////////////////////////////////////////////////////
+export async function aplicarRecurrentes() {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar`, {
+    method: "POST",
+    headers: getHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al aplicar recurrentes");
+  }
+
+  return data;
+}

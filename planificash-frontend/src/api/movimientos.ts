@@ -29,3 +29,24 @@ export async function crearMovimiento(movimiento: any) {
   const data = await response.json();
   return data;
 }
+
+//  Aplicar recurrentes
+export async function aplicarRecurrentes() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al aplicar recurrentes");
+  }
+
+  return data;
+}

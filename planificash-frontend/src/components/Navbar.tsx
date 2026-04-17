@@ -40,6 +40,10 @@ const user = JSON.parse(localStorage.getItem("user") || "{}");
           Movimientos
         </button>
 
+        <button onClick={() => navigate("/recurrentes")} className="navbar-btn">
+          Recurrentes
+        </button>
+
         <button onClick={logout} className="navbar-logout">
           Cerrar sesión
         </button>

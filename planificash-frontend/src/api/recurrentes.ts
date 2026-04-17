@@ -14,9 +14,21 @@ function getHeaders() {
 // 📥 OBTENER RECURRENTES
 //////////////////////////////////////////////////////
 export async function getRecurrentes() {
-  const response = await fetch(`${API_URL}/movimientos-recurrentes`, {
-    headers: getHeaders(),
-  });
+  const userString = localStorage.getItem("user");
+
+if (!userString) {
+  throw new Error("Usuario no autenticado");
+}
+
+const user = JSON.parse(userString);
+const userId = user.id;
+
+  const response = await fetch(
+    `${API_URL}/movimientos-recurrentes?usuario_id=${userId}`,
+    {
+      headers: getHeaders(),
+    }
+  );
 
   const data = await response.json();
 

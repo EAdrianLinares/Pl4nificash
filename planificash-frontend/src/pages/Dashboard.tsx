@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { crearMovimiento } from "../api/movimientos";
+import { createRecurrente } from "../api/recurrentes";
+
 import { MovimientoList } from "../components/MovimientoList";
 import { DisponibleCard } from "../components/DisponibleCard";
 import { ModalMovimiento } from "../components/ModalMovimiento";
+
 import { useMovimientos } from "../hooks/useMovimientos";
 
-
 function Dashboard() {
-
     const {
         ultimos5,
         disponible,
@@ -15,21 +16,41 @@ function Dashboard() {
         cargarMovimientos,
     } = useMovimientos();
 
-
-    // Estado del Modal
+    // =========================
+    // MODAL
+    // =========================
     const [mostrarModal, setMostrarModal] = useState(false);
 
-    // formulario
+    // =========================
+    // FORMULARIO
+    // =========================
     const [tipo, setTipo] = useState("Ingreso");
-    const [categoria, setCategoria] = useState("Fijo");
+    const [categoria, setCategoria] = useState("Variable"); // 🔥 default correcto
     const [descripcion, setDescripcion] = useState("");
     const [valor, setValor] = useState("");
     const [fecha, setFecha] = useState("");
 
-    // Crear movimiento
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
+    // =========================
+    // HELPERS
+    // =========================
+    const resetForm = () => {
+        setTipo("Ingreso");
+        setCategoria("Variable");
+        setDescripcion("");
+        setValor("");
+        setFecha("");
+    };
 
+    const cerrarYRecargar = async () => {
+        setMostrarModal(false);
+        resetForm();
+        await cargarMovimientos();
+    };
+
+    // =========================
+    // CREAR MOVIMIENTO NORMAL
+    // =========================
+    const handleMovimiento = async () => {
         try {
             await crearMovimiento({
                 tipo,
@@ -38,51 +59,73 @@ function Dashboard() {
                 valor: Number(valor),
                 fecha,
             });
-            
-            setMostrarModal(false);
 
-            setDescripcion("");
-            setValor("");
-            setFecha("");
-
-            await cargarMovimientos();
+            await cerrarYRecargar();
         } catch (error) {
-            console.log("Error al guardar:", error);
-            
+            console.log("Error movimiento:", error);
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
+    // =========================
+    // CREAR RECURRENTE
+    // =========================
+    const handleRecurrente = async () => {
+        try {
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    
+            await createRecurrente({
+                tipo,
+                nombre: descripcion,
+                monto: Number(valor),
+                usuario_id: user.id,
+            });
+
+            await cerrarYRecargar();
+        } catch (error) {
+            console.log("Error recurrente:", error);
+        }
+    };
+
+    // =========================
+    // UI
+    // =========================
+    if (loading) return <p>Cargando...</p>;
 
     return (
         <div className="container mt-4">
             <div className="row justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
 
-
                     <div className="text-center mb-4">
                         <h2>Dashboard</h2>
 
-                        {/*Lista */}
+                        {/* 💰 Disponible */}
                         <DisponibleCard disponible={disponible} />
+
+                        {/* 📋 Últimos movimientos */}
                         <MovimientoList movimientos={ultimos5} />
 
-                        {/*Botón*/}
+                        {/* ➕ Botón */}
                         <div className="text-center mt-3">
-                            <button className="btn btn-success mb-3"
-                                onClick={() => setMostrarModal(true)}>
+                            <button
+                                className="btn btn-success mb-3"
+                                onClick={() => {
+                                    resetForm(); // 🔥 siempre limpio
+                                    setMostrarModal(true);
+                                }}
+                            >
                                 Agregar Movimiento
                             </button>
                         </div>
 
-                        {/*Click botón => Modal*/}
-
+                        {/* 🧾 Modal */}
                         <ModalMovimiento
                             mostrar={mostrarModal}
                             onClose={() => setMostrarModal(false)}
-                            onSubmit={handleSubmit}
+
+                            onSubmitMovimiento={handleMovimiento}
+                            onSubmitRecurrente={handleRecurrente}
+
                             tipo={tipo}
                             setTipo={setTipo}
                             categoria={categoria}
@@ -95,10 +138,11 @@ function Dashboard() {
                             setFecha={setFecha}
                         />
                     </div>
+
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Dashboard;

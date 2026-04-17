@@ -27,3 +27,10 @@ export const calcularDisponible = (movimientos: any[]) => {
 
   }, 0);
 };
+
+// 🔥 FORMATO GLOBAL DE DINERO
+export const formatMoney = (value: number) => {
+  return `$${new Intl.NumberFormat("es-CO", {
+    maximumFractionDigits: 0,
+  }).format(value)}`;
+};

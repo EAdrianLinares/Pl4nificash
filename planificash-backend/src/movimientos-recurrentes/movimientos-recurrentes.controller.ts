@@ -7,6 +7,9 @@ import {
   Patch,
   Param,
   Delete,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { MovimientosRecurrentesService } from './movimientos-recurrentes.service';
 import { CreateMovimientoRecurrenteDto } from './dto/create-movimiento-recurrente.dto';
@@ -18,8 +21,44 @@ export class MovimientosRecurrentesController {
 
   // Crear
   @Post()
-  create(@Body() dto: CreateMovimientoRecurrenteDto) {
-    return this.service.create(dto);
+  async create(@Body() dto: CreateMovimientoRecurrenteDto) {
+    try {
+      // Validar que usuario_id esté presente
+      if (!dto.usuario_id) {
+        throw new BadRequestException('usuario_id es requerido');
+      }
+
+      // Validar que tipo sea válido
+      if (!dto.tipo || !['Ingreso', 'Gasto'].includes(dto.tipo)) {
+        throw new BadRequestException('tipo debe ser "Ingreso" o "Gasto"');
+      }
+
+      // Validar nombre
+      if (!dto.nombre || typeof dto.nombre !== 'string') {
+        throw new BadRequestException('nombre es requerido y debe ser texto');
+      }
+
+      // Validar monto
+      if (!dto.monto || Number(dto.monto) <= 0) {
+        throw new BadRequestException('monto debe ser un número mayor a 0');
+      }
+
+      return await this.service.create(dto);
+    } catch (error) {
+      console.error('Error en POST /movimientos-recurrentes:', error);
+      
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message || 'Error al crear movimiento recurrente',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   // Listar

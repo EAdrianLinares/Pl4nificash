@@ -10,6 +10,7 @@ async function bootstrap() {
         'https://pl4nificash.vercel.app',
         'https://pl4nificash-1.onrender.com', // develop
         'https://pl4nificash.onrender.com',   // main
+        /^https:\/\/pl4nificash-git-.+\.vercel\.app$/, // Vercel preview deployments
       ],
       credentials: true,
     },

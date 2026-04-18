@@ -54,11 +54,14 @@ function Recurrentes() {
   const loadData = async () => {
     try {
       const res = await getRecurrentes();
-      setData(res);
+      // Asegurar que sea un array
+      const recurrentesArray = Array.isArray(res) ? res : [];
+      setData(recurrentesArray);
       const mov = await getMovimientos();
       setMovimientos(mov);
     } catch (error) {
       console.error("Error cargando datos:", error);
+      setData([]);
     }
   };
 
@@ -172,11 +175,11 @@ function Recurrentes() {
   // TOTALES
   // =========================
   const ingresos = data
-    .filter((rec: any) => rec.tipo === "Ingreso")
+    .filter((rec: any) => rec.tipo?.toLowerCase() === "ingreso")
     .reduce((acc: number, rec: any) => acc + Number(rec.monto), 0);
 
   const gastos = data
-    .filter((rec: any) => rec.tipo === "Gasto")
+    .filter((rec: any) => rec.tipo?.toLowerCase() === "gasto")
     .reduce((acc: number, rec: any) => acc + Number(rec.monto), 0);
 
   const balance = ingresos - gastos;

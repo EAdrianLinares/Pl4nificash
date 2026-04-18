@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMovimientos } from "../api/movimientos";
 import {
   ordenarPorFecha,
+  filtrarSinFuturas,
   ultimosMovimientos,
   calcularDisponible,
 } from "../utils/movimientosUtils";
@@ -28,7 +29,8 @@ export const useMovimientos = () => {
     cargarMovimientos();
   }, []);
   
-  const ultimos5 = ultimosMovimientos(movimientos);
+  // Para Dashboard: últimos 5 SIN futuras
+  const ultimos5 = ultimosMovimientos(filtrarSinFuturas(movimientos));
   const disponible = calcularDisponible(movimientos);
 
   return {
@@ -37,6 +39,6 @@ export const useMovimientos = () => {
     disponible,
     loading,
     cargarMovimientos,
-    setMovimientos, // 🔥 importante para el handleSubmit
+    setMovimientos,
   };
 };

@@ -1,6 +1,7 @@
+import type { TipoMovimientoType } from "../constants/movimientos";
 import { TipoMovimiento } from "../constants/movimientos";
 
-export const normalizarTipo = (value: string) => {
+export const normalizarTipo = (value: string): TipoMovimientoType => {
   if (!value) return TipoMovimiento.INGRESO;
 
   const limpio = value.trim().toLowerCase();

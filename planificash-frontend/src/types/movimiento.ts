@@ -1,8 +1,3 @@
-import {
-  TipoMovimiento,
-  CategoriaMovimiento,
-} from "../constants/movimientos";
-
 import type {
   TipoMovimientoType,
   CategoriaMovimientoType,

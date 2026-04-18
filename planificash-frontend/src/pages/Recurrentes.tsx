@@ -11,11 +11,6 @@ import { getMovimientos } from "../api/movimientos";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 import { formatMoney } from "../utils/movimientosUtils";
 
-import type {
-  TipoMovimientoType,
-  CategoriaMovimientoType,
-} from "../constants/movimientos";
-
 function Recurrentes() {
   const [data, setData] = useState<any[]>([]);
   const [movimientos, setMovimientos] = useState<any[]>([]);
@@ -32,9 +27,9 @@ function Recurrentes() {
   // =========================
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  const [tipo, setTipo] = useState<TipoMovimientoType>("Ingreso");
+  const [tipo, setTipo] = useState<string>("Ingreso");
 
-  const [categoria, setCategoria] = useState<CategoriaMovimientoType>(
+  const [categoria, setCategoria] = useState<string>(
     "Fijo"
   );
   const [descripcion, setDescripcion] = useState("");

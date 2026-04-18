@@ -5,6 +5,10 @@ import { ModalMovimiento } from "../components/ModalMovimiento";
 import { crearMovimiento } from "../api/movimientos";
 import { normalizarTipo } from "../utils/normalizers";
 
+import type {
+  CategoriaMovimientoType,
+} from "../types/movimiento";
+
 function Movimientos() {
   const { movimientos, cargarMovimientos } = useMovimientos();
 
@@ -31,7 +35,7 @@ function Movimientos() {
     try {
       await crearMovimiento({
         tipo: normalizarTipo(tipo),
-        categoria,
+        categoria: categoria as CategoriaMovimientoType,
         descripcion,
         valor: Number(valor),
         fecha,

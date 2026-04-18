@@ -8,6 +8,11 @@ import { ModalMovimiento } from "../components/ModalMovimiento";
 
 import { useMovimientos } from "../hooks/useMovimientos";
 
+import type {
+    TipoMovimientoType,
+    CategoriaMovimientoType,
+} from "../types/movimiento";
+
 function Dashboard() {
     const {
         ultimos5,
@@ -53,8 +58,8 @@ function Dashboard() {
     const handleMovimiento = async () => {
         try {
             await crearMovimiento({
-                tipo,
-                categoria,
+                tipo: tipo as TipoMovimientoType,
+                categoria: categoria as CategoriaMovimientoType,
                 descripcion,
                 valor: Number(valor),
                 fecha,
@@ -74,7 +79,7 @@ function Dashboard() {
             const user = JSON.parse(localStorage.getItem("user") || "{}");
 
             await createRecurrente({
-                tipo,
+                tipo: tipo as TipoMovimientoType,
                 nombre: descripcion,
                 monto: Number(valor),
                 usuario_id: user.id,

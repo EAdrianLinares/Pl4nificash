@@ -3,6 +3,8 @@ import type {
   CategoriaMovimientoType,
 } from "../constants/movimientos";
 
+export type { TipoMovimientoType, CategoriaMovimientoType };
+
 export interface CreateMovimiento {
   tipo: TipoMovimientoType;
   categoria: CategoriaMovimientoType;

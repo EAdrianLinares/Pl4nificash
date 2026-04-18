@@ -8,6 +8,8 @@ async function bootstrap() {
       origin: [
         'http://localhost:5173',
         'https://pl4nificash.vercel.app',
+        'https://pl4nificash-1.onrender.com', // develop
+        'https://pl4nificash.onrender.com',   // main
       ],
       credentials: true,
     },

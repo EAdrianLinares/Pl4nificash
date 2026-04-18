@@ -1,5 +1,14 @@
 export const ordenarPorFecha = (movimientos: any[]) => {
-  return [...movimientos].sort((a, b) => {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  // Filtrar solo movimientos de hoy hacia atrás
+  const movimientosFiltrados = movimientos.filter((m) => {
+    const fechaMovimiento = new Date(m.fecha + "T00:00:00");
+    return fechaMovimiento <= hoy;
+  });
+
+  return [...movimientosFiltrados].sort((a, b) => {
     const fechaA = new Date(a.fecha + "T00:00:00").getTime();
     const fechaB = new Date(b.fecha + "T00:00:00").getTime();
     return fechaB - fechaA;

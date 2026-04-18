@@ -44,7 +44,19 @@ export class MovimientosRecurrentesController {
   }
 
   @Post('aplicar-mes')
-aplicarMes(@Body('usuario_id') usuario_id: number) {
-  return this.service.aplicarMes(Number(usuario_id));
-}
+  aplicarMes(@Body('usuario_id') usuario_id: number) {
+    return this.service.aplicarMes(Number(usuario_id));
+  }
+
+  // Aplicar recurrente individual
+  @Post(':id/aplicar')
+  aplicarRecurrenteIndividual(
+    @Param('id') id: number,
+    @Body('usuario_id') usuario_id: number,
+  ) {
+    return this.service.aplicarRecurrenteIndividual(
+      Number(id),
+      Number(usuario_id),
+    );
+  }
 }

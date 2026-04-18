@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { normalizarTipo } from "../utils/normalizers";
 import {
   getRecurrentes,
-  aplicarRecurrentes,
+  aplicarRecurrenteIndividual,
   createRecurrente,
   updateRecurrente,
   deleteRecurrente,
 } from "../api/recurrentes";
+import { getMovimientos } from "../api/movimientos";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 import { formatMoney } from "../utils/movimientosUtils";
 
@@ -22,7 +23,9 @@ import type {
 
 function Recurrentes() {
   const [data, setData] = useState([]);
+  const [movimientos, setMovimientos] = useState([]);
   const [mensaje, setMensaje] = useState("");
+  const [aplicadoId, setAplicadoId] = useState<number | null>(null);
 
   // =========================
   // CONTROL EDICIÓN
@@ -49,8 +52,14 @@ function Recurrentes() {
   // CARGAR DATA
   // =========================
   const loadData = async () => {
-    const res = await getRecurrentes();
-    setData(res);
+    try {
+      const res = await getRecurrentes();
+      setData(res);
+      const mov = await getMovimientos();
+      setMovimientos(mov);
+    } catch (error) {
+      console.error("Error cargando datos:", error);
+    }
   };
 
   useEffect(() => {
@@ -58,16 +67,33 @@ function Recurrentes() {
   }, []);
 
   // =========================
-  // APLICAR MES
+  // APLICAR RECURRENTE INDIVIDUAL
   // =========================
-  const handleAplicar = async () => {
+  const handleAplicarIndividual = async (id: number, nombre: string) => {
     try {
-      const res = await aplicarRecurrentes();
+      setAplicadoId(id);
+      const res = await aplicarRecurrenteIndividual(id);
       setMensaje(res.message);
       loadData();
-    } catch (error) {
-      console.log(error);
+      setTimeout(() => setAplicadoId(null), 3000);
+    } catch (error: any) {
+      setMensaje(error.message || "Error al aplicar");
+      setAplicadoId(null);
     }
+  };
+
+  // =========================
+  // DETECTAR SI YA FUE APLICADO EN EL MES
+  // =========================
+  const estaAplicadoEnMes = (recurrente: any): boolean => {
+    const hoy = new Date();
+    const mesActual = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}`;
+
+    return movimientos.some((m: any) => {
+      const fechaMovimiento = new Date(m.fecha);
+      const mesMovimiento = `${fechaMovimiento.getFullYear()}-${String(fechaMovimiento.getMonth() + 1).padStart(2, '0')}`;
+      return mesMovimiento === mesActual && m.descripcion === recurrente.nombre;
+    });
   };
 
   // =========================
@@ -188,40 +214,52 @@ function Recurrentes() {
         </div>
       </div>
 
-      {/* APLICAR */}
-      <button className="btn btn-success mb-3" onClick={handleAplicar}>
-        Aplicar mes
-      </button>
-
       {mensaje && <div className="alert alert-info">{mensaje}</div>}
 
       {/* LISTADO */}
       <div className="row">
-        {data.map((rec: any) => (
-          <div className="col-md-4" key={rec.id}>
-            <div className="card p-3 mb-2">
-              <h5>{rec.nombre}</h5>
-              <p>{rec.tipo}</p>
-              <p>{formatMoney(Number(rec.monto))}</p>
+        {data.map((rec: any) => {
+          const yaAplicado = estaAplicadoEnMes(rec);
+          return (
+            <div className="col-md-4" key={rec.id}>
+              <div className="card p-3 mb-2">
+                <h5>{rec.nombre}</h5>
+                <p>{rec.tipo}</p>
+                <p>{formatMoney(Number(rec.monto))}</p>
 
-              <div className="d-flex justify-content-center gap-2">
-                <button
-                  className="btn btn-warning btn-sm"
-                  onClick={() => handleEditar(rec)}
-                >
-                  Editar
-                </button>
+                {yaAplicado && (
+                  <p className="text-success mb-2">
+                    <small>✓ Aplicado este mes</small>
+                  </p>
+                )}
 
-                <button
-                  className="btn btn-outline-danger btn-sm"
-                  onClick={() => handleEliminar(rec.id)}
-                >
-                  Eliminar
-                </button>
+                <div className="d-flex justify-content-center gap-2">
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => handleAplicarIndividual(rec.id, rec.nombre)}
+                    disabled={yaAplicado || aplicadoId === rec.id}
+                  >
+                    {aplicadoId === rec.id ? "Aplicando..." : "Aplicar"}
+                  </button>
+
+                  <button
+                    className="btn btn-warning btn-sm"
+                    onClick={() => handleEditar(rec)}
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => handleEliminar(rec.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* BOTÓN FLOTANTE */}

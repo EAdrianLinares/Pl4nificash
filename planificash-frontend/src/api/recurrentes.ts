@@ -97,7 +97,7 @@ export async function deleteRecurrente(id: number) {
 }
 
 //////////////////////////////////////////////////////
-// 🔥 APLICAR MES
+// 🔥 APLICAR MES (todos)
 //////////////////////////////////////////////////////
 export async function aplicarRecurrentes() {
   const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar`, {
@@ -109,6 +109,37 @@ export async function aplicarRecurrentes() {
 
   if (!response.ok) {
     throw new Error(data.message || "Error al aplicar recurrentes");
+  }
+
+  return data;
+}
+
+//////////////////////////////////////////////////////
+// 🔥 APLICAR RECURRENTE INDIVIDUAL
+//////////////////////////////////////////////////////
+export async function aplicarRecurrenteIndividual(recurrenteId: number) {
+  const userString = localStorage.getItem("user");
+
+  if (!userString) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  const user = JSON.parse(userString);
+  const userId = user.id;
+
+  const response = await fetch(
+    `${API_URL}/movimientos-recurrentes/${recurrenteId}/aplicar`,
+    {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({ usuario_id: userId }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al aplicar recurrente");
   }
 
   return data;

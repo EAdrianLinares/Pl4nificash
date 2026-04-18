@@ -31,7 +31,7 @@ import { MovimientosRecurrentesModule } from './movimientos-recurrentes/movimien
       database: config.get<string>('DB_NAME'),
 
       autoLoadEntities: true,
-      synchronize: true, // Temporal: crear tablas automáticamente desde entities
+      synchronize: false, // ✅ Seguro: tablas ya existen
     }),
   }),
 

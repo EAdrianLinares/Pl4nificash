@@ -20,6 +20,8 @@ type Props = {
 
   fecha: string;
   setFecha: (value: string) => void;
+
+  categoriaDisabled?: boolean;
 };
 
 export const ModalMovimiento = ({
@@ -37,6 +39,7 @@ export const ModalMovimiento = ({
   setValor,
   fecha,
   setFecha,
+  categoriaDisabled = false,
 }: Props) => {
 
   if (!mostrar) return null;
@@ -90,6 +93,7 @@ export const ModalMovimiento = ({
                   className="form-control mb-2"
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
+                  disabled={categoriaDisabled}
                 >
                   <option value="Fijo">Fijo</option>
                   <option value="Variable">Variable</option>

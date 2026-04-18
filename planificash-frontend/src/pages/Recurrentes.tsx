@@ -274,6 +274,7 @@ function Recurrentes() {
         setValor={setValor}
         fecha={fecha}
         setFecha={setFecha}
+        categoriaDisabled={true}
       />
     </div>
   );

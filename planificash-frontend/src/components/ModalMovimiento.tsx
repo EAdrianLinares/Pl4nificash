@@ -1,12 +1,4 @@
-import {
-  TipoMovimiento,
-  CategoriaMovimiento,
-} from "../constants/movimientos";
 
-import type {
-  TipoMovimientoType,
-  CategoriaMovimientoType,
-} from "../constants/movimientos";
 
 type Props = {
   mostrar: boolean;

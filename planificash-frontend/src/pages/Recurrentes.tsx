@@ -11,19 +11,14 @@ import { getMovimientos } from "../api/movimientos";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 import { formatMoney } from "../utils/movimientosUtils";
 
-import {
-  TipoMovimiento,
-  CategoriaMovimiento,
-} from "../constants/movimientos";
-
 import type {
   TipoMovimientoType,
   CategoriaMovimientoType,
 } from "../constants/movimientos";
 
 function Recurrentes() {
-  const [data, setData] = useState([]);
-  const [movimientos, setMovimientos] = useState([]);
+  const [data, setData] = useState<any[]>([]);
+  const [movimientos, setMovimientos] = useState<any[]>([]);
   const [mensaje, setMensaje] = useState("");
   const [aplicadoId, setAplicadoId] = useState<number | null>(null);
 
@@ -37,12 +32,10 @@ function Recurrentes() {
   // =========================
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  const [tipo, setTipo] = useState<TipoMovimientoType>(
-    TipoMovimiento.INGRESO
-  );
+  const [tipo, setTipo] = useState<TipoMovimientoType>("Ingreso");
 
   const [categoria, setCategoria] = useState<CategoriaMovimientoType>(
-    CategoriaMovimiento.FIJO
+    "Fijo"
   );
   const [descripcion, setDescripcion] = useState("");
   const [valor, setValor] = useState("");
@@ -72,7 +65,7 @@ function Recurrentes() {
   // =========================
   // APLICAR RECURRENTE INDIVIDUAL
   // =========================
-  const handleAplicarIndividual = async (id: number, nombre: string) => {
+  const handleAplicarIndividual = async (id: number, _nombre?: string) => {
     try {
       setAplicadoId(id);
       const res = await aplicarRecurrenteIndividual(id);

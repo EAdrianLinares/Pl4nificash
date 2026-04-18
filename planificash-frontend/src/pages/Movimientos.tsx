@@ -19,7 +19,7 @@ function Movimientos() {
 
   // FORMULARIO
   const [tipo, setTipo] = useState("Ingreso");
-  const [categoria, setCategoria] = useState("");
+  const [categoria, setCategoria] = useState("Variable");
   const [descripcion, setDescripcion] = useState("");
   const [valor, setValor] = useState("");
   const [fecha, setFecha] = useState("");
@@ -189,7 +189,8 @@ function Movimientos() {
       <ModalMovimiento
         mostrar={mostrarModal}
         onClose={() => setMostrarModal(false)}
-        onSubmit={handleSubmit}
+        onSubmitMovimiento={handleSubmit}
+        onSubmitRecurrente={handleSubmit}
         tipo={tipo}
         setTipo={setTipo}
         categoria={categoria}

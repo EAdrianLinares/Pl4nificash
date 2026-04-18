@@ -1,4 +1,4 @@
-
+import React from "react";
 
 type Props = {
   mostrar: boolean;
@@ -84,8 +84,8 @@ export const ModalMovimiento = ({
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
                 >
-                  <option value={TipoMovimiento.INGRESO}>Ingreso</option>
-                  <option value={TipoMovimiento.GASTO}>Gasto</option>
+                  <option value="Ingreso">Ingreso</option>
+                  <option value="Gasto">Gasto</option>
                 </select>
 
                 <select
@@ -93,8 +93,8 @@ export const ModalMovimiento = ({
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
                 >
-                  <option value={CategoriaMovimiento.FIJO}>Fijo</option>
-                  <option value={CategoriaMovimiento.VARIABLE}>Variable</option>
+                  <option value="Fijo">Fijo</option>
+                  <option value="Variable">Variable</option>
                 </select>
 
                 {/* DESCRIPCION */}

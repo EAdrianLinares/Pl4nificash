@@ -16,7 +16,7 @@ import { MovimientosRecurrentesModule } from './movimientos-recurrentes/movimien
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV || 'local'}`,
-      ignoreEnvFile: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development',
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
 
   //Conexión a la base de datos (dinámica)

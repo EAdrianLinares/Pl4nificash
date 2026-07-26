@@ -144,17 +144,15 @@ export class AuthService {
       throw new BadRequestException(await this.readErrorMessage(response));
     }
 
-    const data = (await response.json()) as {
-      user: SupabaseAuthUser;
-    };
+    const data = (await response.json()) as SupabaseAuthUser;
 
     await this.usuariosService.upsertProfile({
-      id: data.user.id,
+      id: data.id,
       nombre: createUsuarioDto.nombre,
     });
 
     return {
-      id: data.user.id,
+      id: data.id,
       nombre: createUsuarioDto.nombre,
       email: createUsuarioDto.email,
     };

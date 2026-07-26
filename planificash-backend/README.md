@@ -31,6 +31,26 @@
 $ npm install
 ```
 
+## Supabase configuration
+
+Set these environment variables before running the API:
+
+```bash
+DB_HOST=
+DB_PORT=5432
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=postgres
+DB_SSL=true
+
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_JWT_SECRET=
+```
+
+The API now uses Supabase Auth and the existing PostgreSQL schema in Supabase.
+
 ## Compile and run the project
 
 ```bash

@@ -8,7 +8,17 @@ describe('UsuariosController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsuariosController],
-      providers: [UsuariosService],
+      providers: [
+        {
+          provide: UsuariosService,
+          useValue: {
+            obtenerUsuarioPorId: jest.fn(),
+            upsertProfile: jest.fn(),
+            ActualizarUsuario: jest.fn(),
+            eliminarUsuario: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<UsuariosController>(UsuariosController);

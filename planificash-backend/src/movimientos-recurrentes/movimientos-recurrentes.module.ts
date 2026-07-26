@@ -3,14 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovimientosRecurrentesService } from './movimientos-recurrentes.service';
 import { MovimientosRecurrentesController } from './movimientos-recurrentes.controller';
 import { MovimientoRecurrente } from './entities/movimiento-recurrente.entity';
-import { MovimientosModule } from 'src/movimientos/movimientos.module';
+import { MovimientosModule } from '../movimientos/movimientos.module';
+import { Usuarios } from '../usuarios/entities/usuario.entity';
 
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([MovimientoRecurrente]),
-  MovimientosModule],
+    TypeOrmModule.forFeature([MovimientoRecurrente, Usuarios]),
+    MovimientosModule,
+  ],
   providers: [MovimientosRecurrentesService],
   controllers: [MovimientosRecurrentesController],
 

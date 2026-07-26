@@ -1,43 +1,47 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
+  CreateDateColumn,
+  Entity,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { Usuarios } from '../../usuarios/entities/usuario.entity';
-import { TipoMovimiento, CategoriaMovimiento } from '../enum/movement.enum';
 
-@Entity()
+@Entity('movimientos')
 export class Movimiento {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-  @Column({
-    type: 'enum',
-    enum: TipoMovimiento,
-  })
-  tipo!: TipoMovimiento;
-
-  @Column({
-    type: 'enum',
-    enum: CategoriaMovimiento,
-  })
-  categoria!: CategoriaMovimiento;
-
-  @Column('decimal', { precision: 10, scale: 2 })
-  valor!: number;
-
-  @Column()
-  descripcion!: string;
-
-  @Column({ type: 'date' })
-  fecha!: Date;
+  @Column({ name: 'user_id', type: 'uuid' })
+  userId!: string;
 
   @ManyToOne(() => Usuarios, (usuario) => usuario.movimientos, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
   usuario!: Usuarios;
+
+  @Column({ type: 'numeric', precision: 12, scale: 2 })
+  monto!: string;
+
+  @Column({ type: 'text' })
+  tipo!: string;
+
+  @Column({ type: 'text' })
+  descripcion!: string;
+
+  @Column({ type: 'date' })
+  fecha!: Date;
+
+  @Column({ type: 'text', nullable: true })
+  categoria!: string | null;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt!: Date;
 }

@@ -10,40 +10,27 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { MovimientosRecurrentesService } from './movimientos-recurrentes.service';
 import { CreateMovimientoRecurrenteDto } from './dto/create-movimiento-recurrente.dto';
 import { UpdateMovimientoRecurrenteDto } from './dto/update-movimiento-recurrente.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('movimientos-recurrentes')
 export class MovimientosRecurrentesController {
   constructor(private readonly service: MovimientosRecurrentesService) {}
 
   // Crear
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() dto: CreateMovimientoRecurrenteDto) {
+  async create(
+    @Request() req: { user: { userId: string } },
+    @Body() dto: CreateMovimientoRecurrenteDto,
+  ) {
     try {
-      // Validar que usuario_id esté presente
-      if (!dto.usuario_id) {
-        throw new BadRequestException('usuario_id es requerido');
-      }
-
-      // Validar que tipo sea válido
-      if (!dto.tipo || !['Ingreso', 'Gasto'].includes(dto.tipo)) {
-        throw new BadRequestException('tipo debe ser "Ingreso" o "Gasto"');
-      }
-
-      // Validar nombre
-      if (!dto.nombre || typeof dto.nombre !== 'string') {
-        throw new BadRequestException('nombre es requerido y debe ser texto');
-      }
-
-      // Validar monto
-      if (!dto.monto || Number(dto.monto) <= 0) {
-        throw new BadRequestException('monto debe ser un número mayor a 0');
-      }
-
-      return await this.service.create(dto);
+      return await this.service.create(dto, req.user.userId);
     } catch (error) {
       console.error('Error en POST /movimientos-recurrentes:', error);
       
@@ -62,40 +49,43 @@ export class MovimientosRecurrentesController {
   }
 
   // Listar
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query('usuario_id') usuario_id: number) {
-    return this.service.findAll(Number(usuario_id));
+  findAll(@Request() req: { user: { userId: string } }) {
+    return this.service.findAll(req.user.userId);
   }
 
   // Actualizar
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateMovimientoRecurrenteDto,
+    @Request() req: { user: { userId: string } },
   ) {
-    return this.service.update(Number(id), dto);
+    return this.service.update(id, req.user.userId, dto);
   }
 
   // Eliminar (soft)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.service.remove(Number(id));
+  remove(@Param('id') id: string, @Request() req: { user: { userId: string } }) {
+    return this.service.remove(id, req.user.userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('aplicar-mes')
-  aplicarMes(@Body('usuario_id') usuario_id: number) {
-    return this.service.aplicarMes(Number(usuario_id));
+  aplicarMes(@Request() req: { user: { userId: string } }) {
+    return this.service.aplicarMes(req.user.userId);
   }
 
   // Aplicar recurrente individual
+  @UseGuards(JwtAuthGuard)
   @Post(':id/aplicar')
   aplicarRecurrenteIndividual(
-    @Param('id') id: number,
-    @Body('usuario_id') usuario_id: number,
+    @Param('id') id: string,
+    @Request() req: { user: { userId: string } },
   ) {
-    return this.service.aplicarRecurrenteIndividual(
-      Number(id),
-      Number(usuario_id),
-    );
+    return this.service.aplicarRecurrenteIndividual(id, req.user.userId);
   }
 }

@@ -1,0 +1,27 @@
+# Proyecto de Supabase creado
+
+nombre del proyecto: Pl4nificash
+región: us-west-2
+
+# Datos de conexión a PostgreSQL
+
+host: db.xxcokdcrzyxefnuerpfl.supabase.co
+puerto: 5432
+nombre de la base: postgres
+usuario:  postgres
+contraseña: KmtTatlWHhPKmKNM
+usarás SSL: SSL: Sí (sslmode=require)
+
+# Decisión de despliegue
+
+Usar Supabase como base de datos y también Supabase Auth.
+
+# Estructura de datos
+
+- Las tablas ya existen en Supabase (utilice el SQL que me diste anteriormente)
+- No generar nuevas migraciones ni volver a crear el esquema.
+- Adaptar el backend para utilizar las tablas existentes.
+
+# Acceso al backend
+
+Sí.

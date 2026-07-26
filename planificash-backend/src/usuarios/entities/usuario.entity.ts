@@ -1,23 +1,35 @@
-/* eslint-disable prettier/prettier */
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
 import { Movimiento } from '../../movimientos/entities/movimiento.entity';
+import { MovimientoRecurrente } from '../../movimientos-recurrentes/entities/movimiento-recurrente.entity';
 
-@Entity()
+@Entity('profiles')
 export class Usuarios {
+  @PrimaryColumn({ type: 'uuid' })
+  id!: string;
 
-    @PrimaryGeneratedColumn()
-    id!:number;
+  @Column({ type: 'text' })
+  nombre!: string;
 
-    @Column()
-    nombre!: string; 
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt!: Date;
 
-    @Column({unique:true})
-    email!: string;
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt!: Date;
 
-    @Column({select:false})
-    password!: string;
+  @OneToMany(() => Movimiento, (movimiento) => movimiento.usuario)
+  movimientos!: Movimiento[];
 
-    @OneToMany(()=> Movimiento, movimientos => movimientos.usuario)
-    movimientos!: Movimiento[];
-
+  @OneToMany(
+    () => MovimientoRecurrente,
+    (movimientoRecurrente) => movimientoRecurrente.usuario,
+  )
+  movimientosRecurrentes!: MovimientoRecurrente[];
 }

@@ -1,8 +1,19 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsNotEmpty, IsEmail, MinLength, } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  IsUUID,
+  IsOptional,
+  IsEmail,
+} from 'class-validator';
 
 
 export class CreateUsuarioDto {
+    @IsOptional()
+    @IsUUID()
+    id?: string;
+
     @IsString()
     @IsNotEmpty()
     nombre!: string;

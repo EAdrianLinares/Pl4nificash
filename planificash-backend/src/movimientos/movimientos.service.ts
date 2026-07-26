@@ -1,105 +1,184 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Movimiento } from './entities/movimiento.entity';
-import { Usuarios } from '../usuarios/entities/usuario.entity';
+import { Repository } from 'typeorm';
+
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
-import { Repository } from 'typeorm';
+import { Movimiento } from './entities/movimiento.entity';
+import { Usuarios } from '../usuarios/entities/usuario.entity';
+import { TipoMovimiento } from './enum/movement.enum';
+
+type MovimientoResponse = {
+  id: string;
+  tipo: string;
+  categoria: string | null;
+  valor: number;
+  descripcion: string;
+  fecha: string;
+  user_id: string;
+  created_at: Date;
+  updated_at: Date;
+};
 
 @Injectable()
 export class MovimientosService {
-  async findByUsuario(userId: number) {
-  return await this.movimientoRepo.find({
-    where: {
-      usuario: { id: userId },
-    },
-    relations: ['usuario'],
-  });
-}
-
   constructor(
-
     @InjectRepository(Movimiento)
     private readonly movimientoRepo: Repository<Movimiento>,
-
     @InjectRepository(Usuarios)
     private readonly usuarioRepo: Repository<Usuarios>,
-  ) { }
+  ) {}
 
+  private mapTipoToDb(tipo: string) {
+    return tipo.toLowerCase() === 'ingreso' ? 'INGRESO' : 'EGRESO';
+  }
 
-  async create(createMovimientoDto: CreateMovimientoDto, userId: number) {
+  private mapTipoFromDb(tipo: string) {
+    return tipo === 'INGRESO' ? TipoMovimiento.INGRESO : TipoMovimiento.GASTO;
+  }
 
-      console.log("DTO RECIBIDO:", createMovimientoDto);
-      console.log("USER ID:", userId);
+  private toResponse(movimiento: Movimiento): MovimientoResponse {
+    return {
+      id: movimiento.id,
+      tipo: this.mapTipoFromDb(movimiento.tipo),
+      categoria: movimiento.categoria,
+      valor: Number(movimiento.monto),
+      descripcion: movimiento.descripcion,
+      fecha: new Date(movimiento.fecha).toISOString().slice(0, 10),
+      user_id: movimiento.userId,
+      created_at: movimiento.createdAt,
+      updated_at: movimiento.updatedAt,
+    };
+  }
 
+  private toResponses(movimientos: Movimiento[]) {
+    return movimientos.map((movimiento) => this.toResponse(movimiento));
+  }
 
-    const usuario = await this.usuarioRepo.findOne(
-      {
-        where: { id: userId },
-      });
+  async findByUsuario(userId: string) {
+    const movimientos = await this.movimientoRepo.find({
+      where: {
+        userId,
+      },
+      relations: ['usuario'],
+    });
+
+    return this.toResponses(movimientos);
+  }
+
+  async create(createMovimientoDto: CreateMovimientoDto, userId: string) {
+    const usuario = await this.usuarioRepo.findOne({
+      where: { id: userId },
+    });
 
     if (!usuario) {
       throw new NotFoundException('Usuario no encontrado');
     }
 
     const movimiento = this.movimientoRepo.create({
-      ...createMovimientoDto, 
-      usuario: usuario,
+      userId,
+      usuario,
+      tipo: this.mapTipoToDb(createMovimientoDto.tipo),
+      categoria: createMovimientoDto.categoria,
+      monto: createMovimientoDto.valor.toFixed(2),
+      descripcion: createMovimientoDto.descripcion,
+      fecha: new Date(createMovimientoDto.fecha),
     });
-    return this.movimientoRepo.save(movimiento)
+
+    const saved = await this.movimientoRepo.save(movimiento);
+    return this.toResponse(saved);
   }
 
-
-  async findAllByUser(userId: number) {
-    return await this.movimientoRepo.find({
+  async findAllByUser(userId: string) {
+    const movimientos = await this.movimientoRepo.find({
       where: {
-        usuario: { id: userId },
+        userId,
       },
       relations: ['usuario'],
     });
+
+    return this.toResponses(movimientos);
   }
 
-  async findOne(id: number, userId: number) {
+  async findOne(id: string, userId: string) {
     const movimiento = await this.movimientoRepo.findOne({
-      where: { id, usuario: { id: userId }},
-  relations: ['usuario'],
-});
-if (!movimiento) {
-  throw new NotFoundException('Movimiento no encontrado')
-}
-return movimiento;
+      where: { id, userId },
+      relations: ['usuario'],
+    });
+
+    if (!movimiento) {
+      throw new NotFoundException('Movimiento no encontrado');
+    }
+
+    return this.toResponse(movimiento);
   }
 
+  async update(
+    id: string,
+    userId: string,
+    updateMovimientoDto: UpdateMovimientoDto,
+  ) {
+    const movimiento = await this.movimientoRepo.findOne({
+      where: { id, userId },
+      relations: ['usuario'],
+    });
 
-  async update(id: number,  userId: number, updateMovimientoDto: UpdateMovimientoDto) {
-  const movimiento = await this.findOne(id, userId);
-  Object.assign(movimiento, updateMovimientoDto);
-  return await this.movimientoRepo.save(movimiento);
+    if (!movimiento) {
+      throw new NotFoundException('Movimiento no encontrado');
+    }
+
+    if (updateMovimientoDto.tipo) {
+      movimiento.tipo = this.mapTipoToDb(updateMovimientoDto.tipo);
+    }
+
+    if (updateMovimientoDto.categoria !== undefined) {
+      movimiento.categoria = updateMovimientoDto.categoria;
+    }
+
+    if (updateMovimientoDto.valor !== undefined) {
+      movimiento.monto = updateMovimientoDto.valor.toFixed(2);
+    }
+
+    if (updateMovimientoDto.descripcion !== undefined) {
+      movimiento.descripcion = updateMovimientoDto.descripcion;
+    }
+
+    if (updateMovimientoDto.fecha !== undefined) {
+      movimiento.fecha = new Date(updateMovimientoDto.fecha);
+    }
+
+    const saved = await this.movimientoRepo.save(movimiento);
+    return this.toResponse(saved);
+  }
+
+  async remove(id: string, userId: string) {
+    const movimiento = await this.movimientoRepo.findOne({
+      where: { id, userId },
+      relations: ['usuario'],
+    });
+
+    if (!movimiento) {
+      throw new NotFoundException('Movimiento no encontrado');
+    }
+
+    await this.movimientoRepo.remove(movimiento);
+    return { message: 'Movimiento eliminado correctamente' };
+  }
+
+  async findByMonth(mes: number, anio: number, userId: string) {
+    const inicio = new Date(anio, mes - 1, 1);
+    const fin = new Date(anio, mes, 0);
+
+    const movimientos = await this.movimientoRepo
+      .createQueryBuilder('movimiento')
+      .where('movimiento.fecha BETWEEN :inicio AND :fin', {
+        inicio,
+        fin,
+      })
+      .andWhere('movimiento.user_id = :userId', { userId })
+      .leftJoinAndSelect('movimiento.usuario', 'usuario')
+      .getMany();
+
+    return this.toResponses(movimientos);
+  }
 }
-
-
-
-  async remove(id: number, userId:number) {
-  const movimiento = await this.findOne(id, userId);
-  await this.movimientoRepo.remove(movimiento);
-  return { message: 'Movimiento eliminado correctamente' };
-}
-
-  //filtro para mes y año
-
-  async findByMonth(mes: number, anio: number, userId: number) {
-  const inicio = new Date(anio, mes - 1, 1);
-  const fin = new Date(anio, mes, 0);
-
-  return await this.movimientoRepo
-    .createQueryBuilder('movimiento')
-    .where('movimiento.fecha BETWEEN :inicio AND :fin', {
-      inicio,
-      fin,
-    })
-    .andWhere('movimiento.usuarioId = :userId', { userId })
-    .leftJoinAndSelect('movimiento.usuario', 'usuario')
-    .getMany();
-}
-}
-

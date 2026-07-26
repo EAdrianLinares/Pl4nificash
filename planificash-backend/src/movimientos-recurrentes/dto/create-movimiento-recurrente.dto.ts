@@ -1,16 +1,22 @@
-import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+
 import { TipoMovimiento } from '../enums/tipo-movimientos.enum';
 
 export class CreateMovimientoRecurrenteDto {
-  @IsNumber()
-  usuario_id: number;
+  @IsOptional()
+  @IsUUID()
+  user_id?: string;
 
   @IsEnum(TipoMovimiento)
-  tipo: TipoMovimiento;
+  tipo!: TipoMovimiento;
 
   @IsString()
-  nombre: string;
+  nombre!: string;
 
   @IsNumber()
-  monto: number;
+  monto!: number;
+
+  @IsOptional()
+  @IsString()
+  frecuencia?: string;
 }

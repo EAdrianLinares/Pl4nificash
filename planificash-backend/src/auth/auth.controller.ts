@@ -21,9 +21,8 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  // Controller de Registro
   @Post('register')
   async register(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.authService.register(createUsuarioDto)      
+    return this.authService.register(createUsuarioDto);
   }
 }

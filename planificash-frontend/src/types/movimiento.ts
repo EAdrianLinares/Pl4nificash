@@ -17,5 +17,4 @@ export interface CreateRecurrente {
   tipo: TipoMovimientoType;
   nombre: string;
   monto: number;
-  usuario_id: number;
 }

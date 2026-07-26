@@ -137,13 +137,10 @@ function Recurrentes() {
     e.preventDefault();
 
     try {
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-
       const payload = {
         tipo: normalizarTipo(tipo),
         nombre: descripcion,
         monto: Number(valor),
-        usuario_id: user.id,
       };
 
       if (editandoId) {

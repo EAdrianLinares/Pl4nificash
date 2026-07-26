@@ -76,13 +76,10 @@ function Dashboard() {
     // =========================
     const handleRecurrente = async () => {
         try {
-            const user = JSON.parse(localStorage.getItem("user") || "{}");
-
             await createRecurrente({
                 tipo: tipo as TipoMovimientoType,
                 nombre: descripcion,
                 monto: Number(valor),
-                usuario_id: user.id,
             });
 
             await cerrarYRecargar();
@@ -151,5 +148,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
 

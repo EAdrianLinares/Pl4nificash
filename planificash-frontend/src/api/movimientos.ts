@@ -36,7 +36,7 @@ export async function crearMovimiento(body: CreateMovimiento) {
 export async function aplicarRecurrentes() {
   const token = localStorage.getItem("token");
 
-  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar`, {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar-mes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -15,17 +15,8 @@ function getHeaders() {
 // 📥 OBTENER RECURRENTES
 //////////////////////////////////////////////////////
 export async function getRecurrentes() {
-  const userString = localStorage.getItem("user");
-
-if (!userString) {
-  throw new Error("Usuario no autenticado");
-}
-
-const user = JSON.parse(userString);
-const userId = user.id;
-
   const response = await fetch(
-    `${API_URL}/movimientos-recurrentes?usuario_id=${userId}`,
+    `${API_URL}/movimientos-recurrentes`,
     {
       headers: getHeaders(),
     }
@@ -62,7 +53,7 @@ export async function createRecurrente(body: CreateRecurrente) {
 //////////////////////////////////////////////////////
 // ✏️ ACTUALIZAR
 //////////////////////////////////////////////////////
-export async function updateRecurrente(id: number, body: any) {
+export async function updateRecurrente(id: string, body: any) {
   const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
     method: "PATCH",
     headers: getHeaders(),
@@ -81,7 +72,7 @@ export async function updateRecurrente(id: number, body: any) {
 //////////////////////////////////////////////////////
 // ❌ ELIMINAR (soft delete)
 //////////////////////////////////////////////////////
-export async function deleteRecurrente(id: number) {
+export async function deleteRecurrente(id: string) {
   const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
     method: "DELETE",
     headers: getHeaders(),
@@ -100,7 +91,7 @@ export async function deleteRecurrente(id: number) {
 // 🔥 APLICAR MES (todos)
 //////////////////////////////////////////////////////
 export async function aplicarRecurrentes() {
-  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar`, {
+  const response = await fetch(`${API_URL}/movimientos-recurrentes/aplicar-mes`, {
     method: "POST",
     headers: getHeaders(),
   });
@@ -117,22 +108,12 @@ export async function aplicarRecurrentes() {
 //////////////////////////////////////////////////////
 // 🔥 APLICAR RECURRENTE INDIVIDUAL
 //////////////////////////////////////////////////////
-export async function aplicarRecurrenteIndividual(recurrenteId: number) {
-  const userString = localStorage.getItem("user");
-
-  if (!userString) {
-    throw new Error("Usuario no autenticado");
-  }
-
-  const user = JSON.parse(userString);
-  const userId = user.id;
-
+export async function aplicarRecurrenteIndividual(recurrenteId: string) {
   const response = await fetch(
     `${API_URL}/movimientos-recurrentes/${recurrenteId}/aplicar`,
     {
       method: "POST",
       headers: getHeaders(),
-      body: JSON.stringify({ usuario_id: userId }),
     }
   );
 

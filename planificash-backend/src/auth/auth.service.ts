@@ -95,12 +95,20 @@ export class AuthService {
     }
 
     const data = (await response.json()) as SupabaseSignInResponse;
-    const profile = await this.usuariosService.findById(data.user.id);
+    const nombre = data.user.user_metadata?.nombre ?? '';
+    let profile = await this.usuariosService.findById(data.user.id);
+
+    if (!profile) {
+      profile = await this.usuariosService.upsertProfile({
+        id: data.user.id,
+        nombre,
+      });
+    }
 
     return {
       id: data.user.id,
       email: data.user.email,
-      nombre: profile?.nombre ?? data.user.user_metadata?.nombre ?? '',
+      nombre: profile?.nombre ?? nombre,
       accessToken: data.access_token,
     };
   }

@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
       origin: [
-        'http://localhost:5173',
+        'http://localhost:5175',
         'https://pl4nificash.vercel.app',
         'https://pl4nificash-1.onrender.com', // develop
         'https://pl4nificash.onrender.com',   // main

@@ -53,7 +53,7 @@ export async function createRecurrente(body: CreateRecurrente) {
 //////////////////////////////////////////////////////
 // ✏️ ACTUALIZAR
 //////////////////////////////////////////////////////
-export async function updateRecurrente(id: string, body: any) {
+export async function updateRecurrente(id: string | number, body: any) {
   const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
     method: "PATCH",
     headers: getHeaders(),
@@ -72,7 +72,7 @@ export async function updateRecurrente(id: string, body: any) {
 //////////////////////////////////////////////////////
 // ❌ ELIMINAR (soft delete)
 //////////////////////////////////////////////////////
-export async function deleteRecurrente(id: string) {
+export async function deleteRecurrente(id: string | number) {
   const response = await fetch(`${API_URL}/movimientos-recurrentes/${id}`, {
     method: "DELETE",
     headers: getHeaders(),
@@ -108,7 +108,7 @@ export async function aplicarRecurrentes() {
 //////////////////////////////////////////////////////
 // 🔥 APLICAR RECURRENTE INDIVIDUAL
 //////////////////////////////////////////////////////
-export async function aplicarRecurrenteIndividual(recurrenteId: string) {
+export async function aplicarRecurrenteIndividual(recurrenteId: string | number) {
   const response = await fetch(
     `${API_URL}/movimientos-recurrentes/${recurrenteId}/aplicar`,
     {

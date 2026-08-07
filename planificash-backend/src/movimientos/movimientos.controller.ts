@@ -35,6 +35,12 @@ findAllByUser(@Request() req: { user: { userId: string } }) {
 }
 
 @UseGuards(JwtAuthGuard)
+@Get('disponible/actual')
+getDisponibleActual(@Request() req: { user: { userId: string } }) {
+  return this.movimientosService.getDisponibleActual(req.user.userId);
+}
+
+@UseGuards(JwtAuthGuard)
 @Get(':id')
 findOne(@Param('id') id: string, @Request() req: { user: { userId: string } }) {
   return this.movimientosService.findOne(id, req.user.userId);

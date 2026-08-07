@@ -15,6 +15,7 @@ describe('MovimientosController', () => {
             create: jest.fn(),
             findByMonth: jest.fn(),
             findAllByUser: jest.fn(),
+            getDisponibleActual: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),

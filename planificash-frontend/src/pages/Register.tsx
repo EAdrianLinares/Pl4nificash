@@ -45,7 +45,7 @@ function Register() {
 
     return (
         <div className="container mt-5  d-flex justify-content-center align-items-center vh-100">
-            <div className="card p-4 shadow" style={{ width: "500px" }}>
+            <div className="card p-4 shadow w-100" style={{ maxWidth: "500px" }}>
                 <div className="text-center">
                     <h4>Pl4nifica$h </h4>
                     <h4> Registro</h4><br />
@@ -93,7 +93,7 @@ function Register() {
                             <button
                                 type="button"
                                 onClick={() => setShowPasswords(!showPasswords)}
-                                className="btn btn-outline-secondary"
+                                className="btn btn-outline-secondary btn-touch"
                             >
                                 {showPasswords ? "🙈" : "👁️"}
                             </button>
@@ -115,7 +115,7 @@ function Register() {
                     </div>
 
                     <div className="d-flex justify-content-center mt-3">
-                        <button type="submit" className="btn btn-primary align">
+                        <button type="submit" className="btn btn-primary align btn-touch">
                             Registrarse
                         </button>
                     </div>

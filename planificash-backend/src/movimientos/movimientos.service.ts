@@ -66,6 +66,31 @@ export class MovimientosService {
     return this.toResponses(movimientos);
   }
 
+  async getDisponibleActual(userId: string) {
+    const today = new Date().toISOString().slice(0, 10);
+
+    const result = await this.movimientoRepo
+      .createQueryBuilder('movimiento')
+      .select(
+        `COALESCE(SUM(CASE WHEN movimiento.tipo = 'INGRESO' THEN movimiento.monto ELSE 0 END), 0)`,
+        'ingresos',
+      )
+      .addSelect(
+        `COALESCE(SUM(CASE WHEN movimiento.tipo = 'EGRESO' THEN movimiento.monto ELSE 0 END), 0)`,
+        'gastos',
+      )
+      .where('movimiento.user_id = :userId', { userId })
+      .andWhere('movimiento.fecha <= :today', { today })
+      .getRawOne<{ ingresos: string; gastos: string }>();
+
+    const ingresos = Number(result?.ingresos ?? 0);
+    const gastos = Number(result?.gastos ?? 0);
+
+    return {
+      disponible: ingresos - gastos,
+    };
+  }
+
   async create(createMovimientoDto: CreateMovimientoDto, userId: string) {
     const usuario = await this.usuarioRepo.findOne({
       where: { id: userId },

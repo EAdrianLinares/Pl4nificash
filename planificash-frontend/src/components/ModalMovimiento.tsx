@@ -62,7 +62,7 @@ export const ModalMovimiento = ({
       <div className="modal-backdrop fade show"></div>
 
       <div className="modal fade show" style={{ display: "block" }}>
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-mobile">
           <div className="modal-content">
 
             {/* HEADER */}
@@ -81,7 +81,7 @@ export const ModalMovimiento = ({
 
                 {/* TIPO */}
                 <select
-                  className="form-control mb-2"
+                  className="form-select mb-2"
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
                 >
@@ -90,7 +90,7 @@ export const ModalMovimiento = ({
                 </select>
 
                 <select
-                  className="form-control mb-2"
+                  className="form-select mb-2"
                   value={categoria}
                   onChange={(e) => setCategoria(e.target.value)}
                   disabled={categoriaDisabled}
@@ -139,16 +139,16 @@ export const ModalMovimiento = ({
               </div>
 
               {/* FOOTER */}
-              <div className="modal-footer d-flex justify-content-center gap-2">
+              <div className="modal-footer d-flex justify-content-center gap-2 modal-footer-mobile">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btn-touch"
                   onClick={onClose}
                 >
                   Cancelar
                 </button>
 
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary btn-touch">
                   {categoria === "Fijo" ? "Guardar Recurrente" : "Guardar"}
                 </button>
               </div>

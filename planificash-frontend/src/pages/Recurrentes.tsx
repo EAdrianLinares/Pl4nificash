@@ -173,26 +173,26 @@ function Recurrentes() {
   // UI
   // =========================
   return (
-    <div className="container mt-4 text-center">
+    <div className="container mt-4 text-center recurrentes-page">
       <h2>Movimientos Fijos</h2>
 
       {/* CARDS */}
-      <div className="row mb-4">
-        <div className="col-md-4">
+      <div className="row mb-4 g-2">
+        <div className="col-12 col-md-4">
           <div className="card p-3 shadow-sm border-success">
             <h6>Ingresos Fijos</h6>
             <h4 className="text-success">{formatMoney(ingresos)}</h4>
           </div>
         </div>
 
-        <div className="col-md-4">
+        <div className="col-12 col-md-4">
           <div className="card p-3 shadow-sm border-danger">
             <h6>Gastos Fijos</h6>
             <h4 className="text-danger">{formatMoney(gastos)}</h4>
           </div>
         </div>
 
-        <div className="col-md-4">
+        <div className="col-12 col-md-4">
           <div className="card p-3 shadow-sm border-primary">
             <h6>Balance</h6>
             <h4 className={balance >= 0 ? "text-primary" : "text-danger"}>
@@ -209,7 +209,7 @@ function Recurrentes() {
         {data.map((rec: any) => {
           const yaAplicado = estaAplicadoEnMes(rec);
           return (
-            <div className="col-md-4" key={rec.id}>
+            <div className="col-12 col-md-4" key={rec.id}>
               <div className="card p-3 mb-2">
                 <h5>{rec.nombre}</h5>
                 <p>{rec.tipo}</p>
@@ -221,9 +221,9 @@ function Recurrentes() {
                   </p>
                 )}
 
-                <div className="d-flex justify-content-center gap-2">
+                <div className="d-flex justify-content-center gap-2 recurrente-actions">
                   <button
-                    className="btn btn-success btn-sm"
+                    className="btn btn-success btn-sm btn-touch"
                     onClick={() => handleAplicarIndividual(rec.id, rec.nombre)}
                     disabled={yaAplicado || aplicadoId === rec.id}
                   >
@@ -231,14 +231,14 @@ function Recurrentes() {
                   </button>
 
                   <button
-                    className="btn btn-warning btn-sm"
+                    className="btn btn-warning btn-sm btn-touch"
                     onClick={() => handleEditar(rec)}
                   >
                     Editar
                   </button>
 
                   <button
-                    className="btn btn-outline-danger btn-sm"
+                    className="btn btn-outline-danger btn-sm btn-touch"
                     onClick={() => handleEliminar(rec.id)}
                   >
                     Eliminar

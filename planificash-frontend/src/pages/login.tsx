@@ -33,7 +33,7 @@ function Login() {
     return (
 
         <div className="container d-flex justify-content-center align-items-center vh-100">
-            <div className="card p-4 shadow" style={{ width: "350px" }}>
+            <div className="card p-4 shadow w-100" style={{ maxWidth: "350px" }}>
 
                 <div className="text-center">
                     <h4>Pl4nifica$h </h4>
@@ -54,7 +54,7 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)} />
 
                     <div className="text-center">
-                        <button className="btn btn-primary" type="submit">
+                        <button className="btn btn-primary btn-touch" type="submit">
                             Ingresar</button>
                     </div>
                     <br />

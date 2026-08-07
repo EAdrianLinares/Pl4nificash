@@ -89,12 +89,12 @@ function Movimientos() {
   const mostrarGastos = tipoFiltro === "" || tipoFiltro === "Gasto";
 
   return (
-    <div className="container mt-4 text-center">
+    <div className="container mt-4 text-center movimientos-page">
       <h2>Movimientos</h2>
 
       {/* FILTROS */}
-      <div className="row mb-3">
-        <div className="col-md-3">
+      <div className="row mb-3 g-2 filtros-row">
+        <div className="col-12 col-md-3">
           <select
             className="form-select"
             value={tipoFiltro}
@@ -106,7 +106,7 @@ function Movimientos() {
           </select>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-12 col-md-3">
           <select
             className="form-select"
             value={mesFiltro}
@@ -128,7 +128,7 @@ function Movimientos() {
           </select>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-12 col-md-3">
           <input
             type="number"
             className="form-control"
@@ -138,9 +138,9 @@ function Movimientos() {
           />
         </div>
 
-        <div className="col-md-3">
+        <div className="col-12 col-md-3">
           <button
-            className="btn btn-secondary w-100"
+            className="btn btn-secondary w-100 btn-touch"
             onClick={() => {
               setTipoFiltro("");
               setMesFiltro("");
@@ -153,10 +153,10 @@ function Movimientos() {
       </div>
     
 
-      <div className="row mb-4">
+      <div className="row mb-4 g-2">
 
   {mostrarIngresos && (
-    <div className="col-md-6">
+    <div className="col-12 col-md-6">
       <div className="card border-success shadow-sm">
         <div className="card-body text-center">
           <h5 className="text-success">Ingresos</h5>
@@ -167,7 +167,7 @@ function Movimientos() {
   )}
 
   {mostrarGastos && (
-    <div className="col-md-6">
+    <div className="col-12 col-md-6">
       <div className="card border-danger shadow-sm">
         <div className="card-body text-center">
           <h5 className="text-danger">Gastos</h5>

@@ -41,6 +41,12 @@ getDisponibleActual(@Request() req: { user: { userId: string } }) {
 }
 
 @UseGuards(JwtAuthGuard)
+@Get('pendientes/mes-siguiente')
+getPendientesMesSiguiente(@Request() req: { user: { userId: string } }) {
+  return this.movimientosService.getPendientesMesSiguiente(req.user.userId);
+}
+
+@UseGuards(JwtAuthGuard)
 @Get(':id')
 findOne(@Param('id') id: string, @Request() req: { user: { userId: string } }) {
   return this.movimientosService.findOne(id, req.user.userId);

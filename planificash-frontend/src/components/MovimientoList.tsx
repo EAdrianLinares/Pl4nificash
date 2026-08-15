@@ -10,32 +10,34 @@ export const MovimientoList = ({ movimientos, onEdit, onDelete }: Props) => {
       {movimientos.map((mov) => (
         <li
           key={mov.id || mov.fecha + mov.descripcion}
-          className="list-group-item d-flex justify-content-between align-items-start movimiento-item"
+          className="list-group-item d-flex justify-content-between align-items-center movimiento-item"
         >
-          <span className="movimiento-main text-start">
+          <div className="movimiento-main text-start">
             {mov.descripcion} ({mov.tipo}) - {new Date(mov.fecha + "T00:00:00").toLocaleDateString("es-CO")}
-          </span>
+          </div>
 
-          <div className="d-flex align-items-center gap-2">
+          <div className="movimiento-actions d-flex align-items-center justify-content-end gap-2">
             <strong className="movimiento-valor">${Number(mov.valor).toLocaleString()}</strong>
 
             {onEdit && (
               <button
                 type="button"
-                className="btn btn-sm btn-warning"
+                className="btn btn-warning movimiento-action-btn"
                 onClick={() => onEdit(mov)}
+                aria-label="Editar movimiento"
               >
-                Editar
+                ✏️
               </button>
             )}
 
             {onDelete && (
               <button
                 type="button"
-                className="btn btn-sm btn-danger"
+                className="btn btn-danger movimiento-action-btn"
                 onClick={() => onDelete(mov.id)}
+                aria-label="Eliminar movimiento"
               >
-                Eliminar
+                🗑️
               </button>
             )}
           </div>

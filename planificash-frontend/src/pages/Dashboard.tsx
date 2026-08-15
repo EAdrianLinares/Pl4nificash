@@ -3,7 +3,7 @@ import { crearMovimiento } from "../api/movimientos";
 import { createRecurrente } from "../api/recurrentes";
 
 import { MovimientoList } from "../components/MovimientoList";
-import { DisponibleCard } from "../components/DisponibleCard";
+import { DisponibleCard, PendientesCard } from "../components/DisponibleCard";
 import { ModalMovimiento } from "../components/ModalMovimiento";
 
 import { useMovimientos } from "../hooks/useMovimientos";
@@ -17,6 +17,7 @@ function Dashboard() {
     const {
         ultimos5,
         disponible,
+        pendientes,
         loading,
         cargarMovimientos,
     } = useMovimientos();
@@ -104,7 +105,15 @@ function Dashboard() {
                         {/* 💰 Disponible */}
                         <DisponibleCard disponible={disponible} />
 
-                        {/* 📋 Últimos movimientos */}
+                        {/* � Pendientes */}
+                        <PendientesCard
+                            ingresos={pendientes.ingresos}
+                            gastos={pendientes.gastos}
+                            neto={pendientes.neto}
+                            hayPendientes={pendientes.hayPendientes}
+                        />
+
+                        {/* �📋 Últimos movimientos */}
                         <MovimientoList movimientos={ultimos5} />
 
                         {/* ➕ Botón */}

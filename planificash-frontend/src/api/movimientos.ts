@@ -16,6 +16,42 @@ export async function getMovimientos() {
   return data;
 }
 
+export async function getDisponibleActual() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/disponible/actual`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al obtener disponible");
+  }
+
+  return data;
+}
+
+export async function getPendientesMesSiguiente() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/pendientes/mes-siguiente`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al obtener pendientes");
+  }
+
+  return data;
+}
+
 export async function crearMovimiento(body: CreateMovimiento) {
   const token = localStorage.getItem("token");
 
@@ -73,24 +109,7 @@ export async function eliminarMovimiento(id: string) {
   return data;
 }
 
-export async function getDisponibleActual() {
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(`${API_URL}/movimientos/disponible/actual`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || "Error al obtener disponible");
-  }
-
-  return data;
-}
-
-//  Aplicar recurrentes
+// Aplicar recurrentes
 export async function aplicarRecurrentes() {
   const token = localStorage.getItem("token");
 

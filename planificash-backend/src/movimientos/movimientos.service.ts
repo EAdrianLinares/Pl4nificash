@@ -91,6 +91,50 @@ export class MovimientosService {
     };
   }
 
+  async getPendientesMesSiguiente(userId: string) {
+    const desde = new Date();
+    desde.setHours(0, 0, 0, 0);
+
+    const hasta = new Date(
+      desde.getFullYear(),
+      desde.getMonth() + 2,
+      0,
+    );
+    hasta.setHours(0, 0, 0, 0);
+
+    const result = await this.movimientoRepo
+      .createQueryBuilder('movimiento')
+      .select(
+        `COALESCE(SUM(CASE WHEN movimiento.tipo = 'INGRESO' THEN movimiento.monto ELSE 0 END), 0)`,
+        'ingresos',
+      )
+      .addSelect(
+        `COALESCE(SUM(CASE WHEN movimiento.tipo = 'EGRESO' THEN movimiento.monto ELSE 0 END), 0)`,
+        'gastos',
+      )
+      .where('movimiento.user_id = :userId', { userId })
+      .andWhere('movimiento.fecha >= :desde', {
+        desde: desde.toISOString().slice(0, 10),
+      })
+      .andWhere('movimiento.fecha <= :hasta', {
+        hasta: hasta.toISOString().slice(0, 10),
+      })
+      .getRawOne<{ ingresos: string; gastos: string }>();
+
+    const ingresos = Number(result?.ingresos ?? 0);
+    const gastos = Number(result?.gastos ?? 0);
+    const neto = ingresos - gastos;
+
+    return {
+      ingresos,
+      gastos,
+      neto,
+      hayPendientes: ingresos !== 0 || gastos !== 0 || neto !== 0,
+      desde: desde.toISOString().slice(0, 10),
+      hasta: hasta.toISOString().slice(0, 10),
+    };
+  }
+
   async create(createMovimientoDto: CreateMovimientoDto, userId: string) {
     const usuario = await this.usuarioRepo.findOne({
       where: { id: userId },

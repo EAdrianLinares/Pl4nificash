@@ -29,6 +29,19 @@ export async function getDisponibleActual() {
   return data;
 }
 
+export async function getPendientesMesSiguiente() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/pendientes/mes-siguiente`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+  return data;
+}
+
 export async function crearMovimiento(body: CreateMovimiento) {
   const token = localStorage.getItem("token");
 

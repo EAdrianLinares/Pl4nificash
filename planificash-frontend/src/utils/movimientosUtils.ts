@@ -44,3 +44,16 @@ export const formatMoney = (value: number) => {
     maximumFractionDigits: 0,
   }).format(value)}`;
 };
+
+export const formatMoneySigned = (value: number) => {
+  const absolute = Math.abs(value);
+  const formatted = new Intl.NumberFormat("es-CO", {
+    maximumFractionDigits: 0,
+  }).format(absolute);
+
+  if (value < 0) {
+    return `($${formatted})`;
+  }
+
+  return `$${formatted}`;
+};

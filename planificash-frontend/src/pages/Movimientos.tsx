@@ -2,55 +2,90 @@ import { useState } from "react";
 import { MovimientoList } from "../components/MovimientoList";
 import { useMovimientos } from "../hooks/useMovimientos";
 import { ModalMovimiento } from "../components/ModalMovimiento";
-import { crearMovimiento } from "../api/movimientos";
+import {
+  crearMovimiento,
+  actualizarMovimiento,
+  eliminarMovimiento,
+} from "../api/movimientos";
 import { normalizarTipo } from "../utils/normalizers";
 
-import type {
-  CategoriaMovimientoType,
-} from "../types/movimiento";
+import type { CategoriaMovimientoType } from "../types/movimiento";
 
 function Movimientos() {
   const { movimientos, cargarMovimientos } = useMovimientos();
 
-  // FILTROS
   const hoy = new Date();
   const [tipoFiltro, setTipoFiltro] = useState("");
   const [mesFiltro, setMesFiltro] = useState(String(hoy.getMonth() + 1));
   const [anioFiltro, setAnioFiltro] = useState(String(hoy.getFullYear()));
 
-  // MODAL
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [movimientoEditando, setMovimientoEditando] = useState<any | null>(null);
 
-  // FORMULARIO
   const [tipo, setTipo] = useState("Ingreso");
   const [categoria, setCategoria] = useState("Variable");
   const [descripcion, setDescripcion] = useState("");
   const [valor, setValor] = useState("");
   const [fecha, setFecha] = useState("");
 
-  // CREAR MOVIMIENTO
+  const resetForm = () => {
+    setTipo("Ingreso");
+    setCategoria("Variable");
+    setDescripcion("");
+    setValor("");
+    setFecha("");
+    setMovimientoEditando(null);
+  };
+
+  const abrirModalCreacion = () => {
+    resetForm();
+    setMostrarModal(true);
+  };
+
+  const abrirModalEdicion = (mov: any) => {
+    setMovimientoEditando(mov);
+    setTipo(mov.tipo || "Ingreso");
+    setCategoria(mov.categoria || "Variable");
+    setDescripcion(mov.descripcion || "");
+    setValor(String(mov.valor ?? ""));
+    setFecha(mov.fecha || "");
+    setMostrarModal(true);
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      await crearMovimiento({
+      const payload = {
         tipo: normalizarTipo(tipo),
         categoria: categoria as CategoriaMovimientoType,
         descripcion,
         valor: Number(valor),
         fecha,
-      });
+      };
+
+      if (movimientoEditando) {
+        await actualizarMovimiento(movimientoEditando.id, payload);
+      } else {
+        await crearMovimiento(payload);
+      }
 
       setMostrarModal(false);
-
-      // limpiar formulario
-      setDescripcion("");
-      setValor("");
-      setFecha("");
-
+      resetForm();
       await cargarMovimientos();
     } catch (error) {
       console.log("Error al guardar:", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este movimiento?")) return;
+
+    try {
+      await eliminarMovimiento(id);
+      await cargarMovimientos();
+    } catch (error) {
+      console.log("Error al eliminar:", error);
     }
   };
 
@@ -180,19 +215,26 @@ function Movimientos() {
 </div>
 
  {/* LISTA */}
-      <MovimientoList movimientos={movimientosFiltrados} />
+      <MovimientoList
+        movimientos={movimientosFiltrados}
+        onEdit={abrirModalEdicion}
+        onDelete={handleDelete}
+      />
 
       {/* BOTÓN FLOTANTE */}
       <button
         className="btn btn-primary fab"
-        onClick={() => setMostrarModal(true)}
+        onClick={abrirModalCreacion}
       >
         +
       </button>
       {/* MODAL */}
       <ModalMovimiento
         mostrar={mostrarModal}
-        onClose={() => setMostrarModal(false)}
+        onClose={() => {
+          setMostrarModal(false);
+          resetForm();
+        }}
         onSubmitMovimiento={handleSubmit}
         onSubmitRecurrente={handleSubmit}
         tipo={tipo}

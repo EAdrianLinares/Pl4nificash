@@ -16,19 +16,6 @@ export async function getMovimientos() {
   return data;
 }
 
-export async function getDisponibleActual() {
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(`${API_URL}/movimientos/disponible/actual`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-  return data;
-}
-
 export async function crearMovimiento(body: CreateMovimiento) {
   const token = localStorage.getItem("token");
 
@@ -42,6 +29,64 @@ export async function crearMovimiento(body: CreateMovimiento) {
   });
 
   const data = await response.json();
+  return data;
+}
+
+export async function actualizarMovimiento(
+  id: string,
+  body: Partial<CreateMovimiento>
+) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Error al actualizar movimiento");
+  }
+
+  return data;
+}
+
+export async function eliminarMovimiento(id: string) {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Error al eliminar movimiento");
+  }
+
+  return data;
+}
+
+export async function getDisponibleActual() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/movimientos/disponible/actual`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Error al obtener disponible");
+  }
+
   return data;
 }
 

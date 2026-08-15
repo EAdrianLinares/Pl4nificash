@@ -91,14 +91,14 @@ function Dashboard() {
     // =========================
     // UI
     // =========================
-    if (loading) return <p className="text-center">Cargando...</p>;
+    if (loading) return <p>Cargando...</p>;
 
     return (
-        <div className="container mt-4 dashboard-page">
+        <div className="container mt-4">
             <div className="row justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
 
-                    <div className="text-center mb-4 dashboard-panel">
+                    <div className="text-center mb-4">
                         <h2>Dashboard</h2>
 
                         {/* 💰 Disponible */}
@@ -108,9 +108,9 @@ function Dashboard() {
                         <MovimientoList movimientos={ultimos5} />
 
                         {/* ➕ Botón */}
-                        <div className="text-center mt-3 dashboard-actions">
+                        <div className="text-center mt-3">
                             <button
-                                className="btn btn-success mb-3 w-100 w-sm-auto btn-touch"
+                                className="btn btn-success mb-3"
                                 onClick={() => {
                                     resetForm(); // 🔥 siempre limpio
                                     setMostrarModal(true);

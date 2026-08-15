@@ -16,7 +16,7 @@ export const MovimientoList = ({ movimientos, onEdit, onDelete }: Props) => {
             {mov.descripcion} ({mov.tipo}) - {new Date(mov.fecha + "T00:00:00").toLocaleDateString("es-CO")}
           </div>
 
-          <div className="movimiento-actions d-flex align-items-center justify-content-end gap-2">
+          <div className="movimiento-actions d-flex align-items-center justify-content-end gap-2 ml-auto">
             <strong className="movimiento-valor">${Number(mov.valor).toLocaleString()}</strong>
 
             {onEdit && (

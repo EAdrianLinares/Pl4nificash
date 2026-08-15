@@ -210,39 +210,46 @@ function Recurrentes() {
           const yaAplicado = estaAplicadoEnMes(rec);
           return (
             <div className="col-md-4" key={rec.id}>
-              <div className="card p-3 mb-2">
-                <h5>{rec.nombre}</h5>
-                <p>{rec.tipo}</p>
-                <p>{formatMoney(Number(rec.monto))}</p>
+              <div className="card p-3 mb-2 recurrente-card">
+                <div className="recurrente-card-content">
+                  <div className="recurrente-body">
+                    <h5>{rec.nombre}</h5>
+                    <p>{rec.tipo}</p>
+                    <p>{formatMoney(Number(rec.monto))}</p>
 
-                {yaAplicado && (
-                  <p className="text-success mb-2">
-                    <small>✓ Aplicado este mes</small>
-                  </p>
-                )}
+                    {yaAplicado && (
+                      <p className="text-success mb-2">
+                        <small>✓ Aplicado este mes</small>
+                      </p>
+                    )}
+                  </div>
 
-                <div className="d-flex justify-content-center gap-2">
-                  <button
-                    className="btn btn-success btn-sm"
-                    onClick={() => handleAplicarIndividual(rec.id, rec.nombre)}
-                    disabled={yaAplicado || aplicadoId === rec.id}
-                  >
-                    {aplicadoId === rec.id ? "Aplicando..." : "Aplicar"}
-                  </button>
+                  <div className="recurrente-actions d-flex flex-column justify-content-end align-items-end gap-2 mt-2">
+                    <button
+                      className="btn btn-success recurrente-action-btn"
+                      onClick={() => handleAplicarIndividual(rec.id, rec.nombre)}
+                      disabled={yaAplicado || aplicadoId === rec.id}
+                      title="Aplicar"
+                    >
+                      {aplicadoId === rec.id ? "..." : "✓"}
+                    </button>
 
-                  <button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => handleEditar(rec)}
-                  >
-                    Editar
-                  </button>
+                    <button
+                      className="btn btn-warning recurrente-action-btn"
+                      onClick={() => handleEditar(rec)}
+                      title="Editar"
+                    >
+                      ✏️
+                    </button>
 
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={() => handleEliminar(rec.id)}
-                  >
-                    Eliminar
-                  </button>
+                    <button
+                      className="btn btn-outline-danger recurrente-action-btn"
+                      onClick={() => handleEliminar(rec.id)}
+                      title="Eliminar"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

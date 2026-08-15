@@ -158,6 +158,7 @@ body {
 .movimiento-actions {
   flex-shrink: 0;
   min-width: fit-content;
+  margin-left: auto;
 }
 
 .movimiento-valor {
@@ -175,6 +176,42 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.recurrente-card {
+  position: relative;
+}
+
+.recurrente-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.recurrente-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.recurrente-actions {
+  width: auto;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.recurrente-action-btn {
+  width: 1.9rem;
+  height: 1.9rem;
+  min-width: 1.9rem;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
   line-height: 1;
   box-shadow: none;
 }
@@ -202,12 +239,13 @@ body {
     display: grid;
   }
 
-  .recurrente-actions {
-    flex-wrap: wrap;
+  .recurrente-card-content {
+    align-items: center;
   }
 
-  .recurrente-actions .btn {
-    flex: 1 1 calc(50% - 8px);
+  .recurrente-actions {
+    flex-direction: column !important;
+    align-items: flex-end !important;
   }
 }
 
@@ -230,8 +268,22 @@ body {
   }
 
   .movimiento-item {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .movimiento-main {
+    flex: 1 1 auto;
+    max-width: calc(100% - 120px);
+  }
+
+  .movimiento-actions {
+    margin-left: auto;
+  }
+
+  .recurrente-actions {
+    justify-content: flex-end !important;
   }
 
   .modal-mobile {
